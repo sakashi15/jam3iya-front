@@ -116,12 +116,15 @@
       </div>
 
       <center v-else>
-        <br/>
-        <br/>
-        <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
-        <br/>
-        <br/>
-        <h5>Pas de données</h5>
+        <b-spinner v-if="isLoading" label="Loading..."></b-spinner>
+        <div v-else>
+          <br/>
+          <br/>
+          <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
+          <br/>
+          <br/>
+          <h5>Pas de données</h5>
+        </div>
       </center>
 
       <b-modal
@@ -363,7 +366,8 @@ export default {
     error: null,
     showError: false,
     showSuccess: false,
-    hasAccess: false
+    hasAccess: false,
+    isLoading: false
   }),
   mounted() {
     var role = localStorage.getItem("role");
@@ -378,9 +382,10 @@ export default {
 
       this.showError = false
       this.showSuccess = false
-
+      this.isLoading = true
       this.$http.post("giveway/create", this.form)
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.showSuccess = true
               this.resetAdd()
@@ -390,6 +395,7 @@ export default {
             }
           })
           .catch(error => {
+            this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
             console.log(error)
@@ -397,8 +403,10 @@ export default {
           });
     },
     getAllGiveways() {
+      this.isLoading = true
       this.$http.get("giveway/get-all")
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.items = response.data.data
             }else{
@@ -407,6 +415,7 @@ export default {
             console.log(response.data.data)
           })
           .catch(error => {
+            this.isLoading = false
             console.log(error.response.data)
           });
     },
@@ -415,9 +424,10 @@ export default {
 
       this.showError = false
       this.showSuccess = false
-
+      this.isLoading = true
       this.$http.post("giveway/update", this.form)
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.showSuccess = true
               this.getAllGiveways()
@@ -426,6 +436,7 @@ export default {
             }
           })
           .catch(error => {
+            this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
             console.log(error)
@@ -462,10 +473,11 @@ export default {
             if(value === true) {
 
 
-
+              this.isLoading = true
               this.showError = false
               this.$http.post("giveway/delete", this.form)
                   .then(response => {
+                    this.isLoading = false
                     if(response.status === 200){
                       this.show2 = false
                       this.showSuccess = true
@@ -475,6 +487,7 @@ export default {
                     }
                   })
                   .catch(error => {
+                    this.isLoading = false
                     this.error = error.response.data
                     console.log(error)
                     this.showError = true

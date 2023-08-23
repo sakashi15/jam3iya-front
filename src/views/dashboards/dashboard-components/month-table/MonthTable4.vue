@@ -246,12 +246,15 @@
         </div>
 
         <center v-else>
-          <br/>
-          <br/>
-          <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
-          <br/>
-          <br/>
-          <h5>Pas de données</h5>
+          <b-spinner v-if="isLoading" label="Loading..."></b-spinner>
+          <div v-else>
+            <br/>
+            <br/>
+            <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
+            <br/>
+            <br/>
+            <h5>Pas de données</h5>
+          </div>
         </center>
 
         <b-modal
@@ -451,7 +454,8 @@ export default {
     },
     show2: true,
     currentYear: null,
-    hasAccess: false
+    hasAccess: false,
+    isLoading: false
   }),
   mounted() {
     var role = localStorage.getItem("role");
@@ -464,8 +468,10 @@ export default {
   },
   methods: {
     getAllYears() {
+      this.isLoading = true
       this.$http.get("years/get-all")
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.years = response.data.data
               response.data.data.forEach(
@@ -483,13 +489,16 @@ export default {
             }
           })
           .catch(error => {
+            this.isLoading = false
             console.log(error.response)
           });
     },
     getAllMembersParticipation() {
       this.currentYear = this.years.filter((element) => element.id == this.selected)[0]
+      this.isLoading = true
       this.$http.get("members-participation/get-all/" + this.selected)
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.items = response.data.data
             }else{
@@ -498,6 +507,7 @@ export default {
             console.log(response.data.data)
           })
           .catch(error => {
+            this.isLoading = false
             console.log(error.response.data)
           });
     },
@@ -519,9 +529,10 @@ export default {
 
       this.showError = false
       this.showSuccess = false
-
+      this.isLoading = true
       this.$http.post("members-participation/update", this.form)
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.showSuccess = true
               this.getAllMembersParticipation()
@@ -530,6 +541,7 @@ export default {
             }
           })
           .catch(error => {
+            this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
             console.log(error)
@@ -546,8 +558,10 @@ export default {
 
       this.form2.year_id = this.currentYear.id
       this.form2["member_id"] = this.form.id
+      this.isLoading = true
       this.$http.post("members-participation/create", this.form2)
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.showSuccess = true
               this.getAllMembersParticipation()
@@ -556,6 +570,7 @@ export default {
             }
           })
           .catch(error => {
+            this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
             console.log(error)
@@ -597,14 +612,16 @@ export default {
             if(value === true) {
 
 
-
+              this.isLoading = true
               this.$http.post("members-participation/delete", {id: idTransaction})
                   .then(response => {
+                    this.isLoading = false
                     if(response.status === 200){
                       this.getAllMembersParticipation()
                     }
                   })
                   .catch(error => {
+                    this.isLoading = false
                     this.error = error.response.data
                     console.log(error)
                   });

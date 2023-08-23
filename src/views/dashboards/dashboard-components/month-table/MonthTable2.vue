@@ -116,12 +116,15 @@
       </div>
 
       <center v-else>
-        <br/>
-        <br/>
-        <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
-        <br/>
-        <br/>
-        <h5>Pas de données</h5>
+        <b-spinner v-if="isLoading" label="Loading..."></b-spinner>
+        <div v-else>
+          <br/>
+          <br/>
+          <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
+          <br/>
+          <br/>
+          <h5>Pas de données</h5>
+        </div>
       </center>
 
       <b-modal
@@ -350,7 +353,8 @@ export default {
     error: null,
     showError: false,
     showSuccess: false,
-    hasAccess: false
+    hasAccess: false,
+    isLoading: false
   }),
   mounted() {
 
@@ -363,8 +367,10 @@ export default {
   },
   methods: {
     getAllTypes() {
+      this.isLoading = true
       this.$http.get("types/get-all")
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.types.push({
                 value: null,
@@ -386,6 +392,7 @@ export default {
             console.log(response.data.data)
           })
           .catch(error => {
+            this.isLoading = false
             console.log(error.response.data)
           });
     },
@@ -394,9 +401,10 @@ export default {
 
       this.showError = false
       this.showSuccess = false
-
+      this.isLoading = true
       this.$http.post("expenses-jam3iya/create", this.form)
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.showSuccess = true
               this.resetAdd()
@@ -406,6 +414,7 @@ export default {
             }
           })
           .catch(error => {
+            this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
             console.log(error)
@@ -413,8 +422,10 @@ export default {
           });
     },
     getAllExpenses() {
+      this.isLoading = true
       this.$http.get("expenses-jam3iya/get-all")
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.items = response.data.data
             }else{
@@ -423,6 +434,7 @@ export default {
             console.log(response.data.data)
           })
           .catch(error => {
+            this.isLoading = false
             console.log(error.response.data)
           });
     },
@@ -431,9 +443,10 @@ export default {
 
       this.showError = false
       this.showSuccess = false
-
+      this.isLoading = true
       this.$http.post("expenses-jam3iya/update", this.form)
           .then(response => {
+            this.isLoading = false
             if(response.status === 200){
               this.showSuccess = true
               this.getAllExpenses()
@@ -442,6 +455,7 @@ export default {
             }
           })
           .catch(error => {
+            this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
             console.log(error)
@@ -480,8 +494,10 @@ export default {
 
 
               this.showError = false
+              this.isLoading = true
               this.$http.post("expenses-jam3iya/delete", this.form)
                   .then(response => {
+                    this.isLoading = false
                     if(response.status === 200){
                       this.show2 = false
                       this.showSuccess = true
@@ -491,6 +507,7 @@ export default {
                     }
                   })
                   .catch(error => {
+                    this.isLoading = false
                     this.error = error.response.data
                     console.log(error)
                     this.showError = true
