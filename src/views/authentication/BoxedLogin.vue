@@ -177,6 +177,7 @@ export default {
               if(response.data.success === true) {
                 localStorage.setItem('_utoken', response.data.access_token)
                 localStorage.setItem('login', response.data.admin.phone)
+                localStorage.setItem('role', response.data.admin.username)
                 this.$router.push({ path: "/home" });
               }
             }else{

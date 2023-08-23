@@ -34,6 +34,11 @@ const router = new Router({
           component: () => import("@/views/expenses_dar_jma3a/ExpensesDarJma3a"),
         },
         {
+          name: "Donations",
+          path: "/giveways",
+          component: () => import("@/views/giveways/Giveways"),
+        },
+        {
           name: "Abonnements des membres",
           path: "/member_subscriptions",
           component: () => import("@/views/member_subscriptions/MemberSubscriptions"),

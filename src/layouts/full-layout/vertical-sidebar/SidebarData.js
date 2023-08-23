@@ -29,6 +29,13 @@ export default [
     to: "/expenses_dar_jma3a/",
   },
   {
+    id: "41",
+    icon: "dollar-sign",
+    title: "Donnations",
+    i18n: "Donnations",
+    to: "/giveways/",
+  },
+  {
     id: "42",
     icon: "credit-card",
     title: "Abonnements des membres",

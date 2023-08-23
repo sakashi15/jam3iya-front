@@ -33,7 +33,7 @@
           <div class="ml-auto mt-2 mt-md-0">
             <div class="btn-grp">
               <b-button variant="outline-info" v-b-modal.modal-center @click="hideAlerts(); resetAdd()">
-                Ajouter dépence
+                Ajouter donation
               </b-button>
             </div>
           </div>
@@ -53,18 +53,18 @@
           empty-text="Pas de données"
       >
 
-        <template #cell(type)="data">
-          <div class="d-flex align-items-center">
-            <div class="ml-3">
-              {{ (data.item.type != null) ? data.item.type.name : "-" }}
-            </div>
-          </div>
-        </template>
-
         <template #cell(created_at)="data">
           <div class="d-flex align-items-center">
             <div class="ml-3">
               {{ (data.item.created_at != null) ? data.item.created_at.substr(0, 10).split('-').reverse().join('-').toString() : "" }}
+            </div>
+          </div>
+        </template>
+
+        <template #cell(description)="data">
+          <div class="d-flex align-items-center">
+            <div class="ml-3">
+              {{ (data.item.description.length > 20) ? data.item.description.substr(0, 20) + "..." : data.item.description }}
             </div>
           </div>
         </template>
@@ -128,7 +128,7 @@
           id="modal-center"
           hide-footer
           centered
-          title="Ajouter une dépence"
+          title="Ajouter une donation"
       >
         <div class="d-block">
           <b-row>
@@ -166,12 +166,18 @@
                     </div>
                   </b-col>
                 </b-alert>
-                <b-form-group id="input-group-3" label="Type:" >
-                  <b-form-select
-                      v-model="form.type"
-                      :options="types"
+                <b-form-group
+                    id="input-group-1"
+                    label="Titre:"
+                    label-for="input-1"
+                >
+                  <b-form-input
+                      id="input-1"
+                      v-model="form.title"
+                      type="text"
+                      placeholder="Entrez le titre"
                       required
-                  ></b-form-select>
+                  ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
@@ -193,11 +199,11 @@
                     label="Description"
                     label-for="input-2"
                 >
-                  <b-form-input
+                  <b-textarea
                       id="input-2"
                       v-model="form.description"
                       placeholder="Entez une description"
-                  ></b-form-input>
+                  ></b-textarea>
                 </b-form-group>
 
                 <div class="btn-grp">
@@ -214,7 +220,7 @@
           id="modal-center2"
           hide-footer
           centered
-          title="Modifier une dépence"
+          title="Modifier une donation"
       >
         <div class="d-block">
           <b-row>
@@ -252,12 +258,19 @@
                 </b-col>
               </b-alert>
               <b-form @submit="onSubmit2" v-if="show2">
-                <b-form-group id="input-group-3" label="Type:" >
-                  <b-form-select
-                      v-model="form.type"
-                      :options="types"
+
+                <b-form-group
+                    id="input-group-1"
+                    label="Titre:"
+                    label-for="input-1"
+                >
+                  <b-form-input
+                      id="input-1"
+                      v-model="form.title"
+                      type="text"
+                      placeholder="Entrez le titre"
                       required
-                  ></b-form-select>
+                  ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
@@ -279,11 +292,12 @@
                     label="Description"
                     label-for="input-2"
                 >
-                  <b-form-input
+                  <b-textarea
                       id="input-2"
                       v-model="form.description"
                       placeholder="Entez une description"
-                  ></b-form-input>
+
+                  ></b-textarea>
                 </b-form-group>
 
                 <div class="btn-grp">
@@ -308,15 +322,14 @@
 </template>
 <script>
 export default {
-  name: "MonthTable2",
+  name: "MonthTable7",
   data: () => ({
-    title: "MonthTable2",
-    types: [],
+    title: "MonthTable7",
     filter: null,
     fields: [
       {
-        key: "type",
-        label: "Type",
+        key: "title",
+        label: "Titre",
       },
       {
         key: "amount",
@@ -343,7 +356,7 @@ export default {
     form: {
       amount : "",
       description : "",
-      type : null
+      title : ""
     },
     show: true,
     show2: true,
@@ -353,54 +366,25 @@ export default {
     hasAccess: false
   }),
   mounted() {
-
     var role = localStorage.getItem("role");
     this.hasAccess = role === "admin"
 
     this.totalRows = this.items.length;
-    this.getAllExpenses()
-    this.getAllTypes()
+    this.getAllGiveways()
   },
   methods: {
-    getAllTypes() {
-      this.$http.get("types/get-all")
-          .then(response => {
-            if(response.status === 200){
-              this.types.push({
-                value: null,
-                text: "Sélectionner type",
-              })
-              response.data.data.forEach(
-                  (element) => this.types.push({
-                    value: element.id,
-                    text: element.name,
-                  })
-              );
-            }else{
-              this.types = []
-              this.types.push({
-                value: null,
-                text: "Sélectionner type",
-              })
-            }
-            console.log(response.data.data)
-          })
-          .catch(error => {
-            console.log(error.response.data)
-          });
-    },
     onSubmit(event) {
       event.preventDefault();
 
       this.showError = false
       this.showSuccess = false
 
-      this.$http.post("expenses-jam3iya/create", this.form)
+      this.$http.post("giveway/create", this.form)
           .then(response => {
             if(response.status === 200){
               this.showSuccess = true
               this.resetAdd()
-              this.getAllExpenses()
+              this.getAllGiveways()
             }else{
               this.showError = true
             }
@@ -412,8 +396,8 @@ export default {
             this.showError = true
           });
     },
-    getAllExpenses() {
-      this.$http.get("expenses-jam3iya/get-all")
+    getAllGiveways() {
+      this.$http.get("giveway/get-all")
           .then(response => {
             if(response.status === 200){
               this.items = response.data.data
@@ -432,11 +416,11 @@ export default {
       this.showError = false
       this.showSuccess = false
 
-      this.$http.post("expenses-jam3iya/update", this.form)
+      this.$http.post("giveway/update", this.form)
           .then(response => {
             if(response.status === 200){
               this.showSuccess = true
-              this.getAllExpenses()
+              this.getAllGiveways()
             }else{
               this.showError = true
             }
@@ -453,7 +437,7 @@ export default {
       event.preventDefault();
       this.form.amount = "";
       this.form.description = "";
-      this.form.type = null;
+      this.form.title = null;
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
@@ -480,12 +464,12 @@ export default {
 
 
               this.showError = false
-              this.$http.post("expenses-jam3iya/delete", this.form)
+              this.$http.post("giveway/delete", this.form)
                   .then(response => {
                     if(response.status === 200){
                       this.show2 = false
                       this.showSuccess = true
-                      this.getAllExpenses()
+                      this.getAllGiveways()
                     }else{
                       this.showError = true
                     }
@@ -514,12 +498,12 @@ export default {
       this.form.id = item.id
       this.form.amount = item.amount;
       this.form.description = item.description;
-      this.form.type = item.type.id;
+      this.form.title = item.title;
     },
     resetAdd() {
       this.form.amount = "";
       this.form.description = "";
-      this.form.type = null;
+      this.form.title = "";
     },
     hideAlerts() {
       this.showError = false
