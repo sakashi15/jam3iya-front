@@ -4,34 +4,35 @@
       <div>
 
         <b-row>
-          <b-col cols="4">
+          <b-col cols="12" md="4">
             <b-form-group
                 label-for="filter-input"
                 label-align-sm="right"
                 class="mb-2"
             >
               <b-input-group>
-                <b-form-input
-                    id="filter-input"
-                    v-model="filter"
-                    type="search"
-                    placeholder="Tapez quelque chose"
-                ></b-form-input>
+
 
                 <b-input-group-append>
                   <b-button
                       variant="danger"
                       :disabled="!filter"
                       @click="filter = ''"
-                  >Vider</b-button
+                  >تفريغ</b-button
                   >
                 </b-input-group-append>
+                <b-form-input
+                    id="filter-input"
+                    v-model="filter"
+                    type="search"
+                    placeholder="اكتب شيء للبحث"
+                ></b-form-input>
               </b-input-group>
             </b-form-group>
           </b-col>
-          <b-col cols="5">
+          <b-col md="4" cols="12">
           </b-col>
-          <b-col cols="3" class="text-right">
+          <b-col md="4" cols="12" class="text-left">
             <div class="ml-auto mt-2 mt-md-0">
               <div class="btn-grp">
                 <b-form-select v-model="selected" :options="options" @change="getAllMembersParticipation"></b-form-select>
@@ -42,7 +43,7 @@
 
         <b-table
             responsive
-            class="mb-0 mt-3"
+            class="mb-0 mt-3 text-right"
             :items="items"
             :fields="fields"
             :filter="filter"
@@ -50,28 +51,29 @@
             :per-page="perPage"
             table-class="bg-transparent text-nowrap"
             v-if="items.filter((element) => element != null).length > 0"
-            empty-text="Pas de données"
+            empty-text="لايوجد بيانات"
         >
 
           <template #cell(image)="data">
-            <!--        <b-img-->
-            <!--            :src="'https://mega-tech.dev/jam3iya/back-end/' + data.item.member.image"-->
-            <!--            rounded="circle"-->
-            <!--            width="50"-->
-            <!--            height="50"-->
-            <!--            v-if="data.item.image != null"-->
-            <!--        />-->
-            <b-img
-                :src="'http://localhost:8000/' + data.item.image"
-                rounded="circle"
-                width="50"
-                height="50"
-                v-if="data.item.image != null"
-            />
+                    <b-img
+                        :src="'https://mega-tech.dev/jam3iya/back-end/' + data.item.image"
+                        rounded="circle"
+                        width="50"
+                        height="50"
+                        v-if="data.item.image != null"
+                    />
+<!--            <b-img-->
+<!--                :src="'http://localhost:8000/' + data.item.image"-->
+<!--                rounded="circle"-->
+<!--                width="50"-->
+<!--                height="50"-->
+<!--                v-if="data.item.image != null"-->
+<!--            />-->
             <b-img
                 :src="require('@/assets/images/users/1.jpg')"
                 rounded="circle"
                 width="50"
+                height="50"
                 v-else
             />
           </template>
@@ -85,15 +87,15 @@
           </template>
 
           <template #cell(rest)="data">
-            {{currentYear.month_amount - getPayedAmount(data.item.years)}}
+            {{parseFloat(currentYear.month_amount) - getPayedAmount(data.item.years)}}
           </template>
 
           <template #cell(month_amount)>
-            {{currentYear.month_amount}}
+            {{parseFloat(currentYear.month_amount)}}
           </template>
 
           <template #cell(show_details)="data">
-            <div class="d-flex align-items-center">
+            <div>
               <b-button
                   v-b-popover.hover.left="data.item.full_name"
                   size="sm"
@@ -102,7 +104,7 @@
                   class="mr-2"
                   v-b-modal.modal-center2
               >
-                Ajouter paiement
+                اضافة دفعة
               </b-button>
 
             </div>
@@ -124,39 +126,39 @@
                   v-model="row.detailsShowing"
                   @change="setTransactions(row, row.item.years)"
               >
-                Aficher détails
+                تفاصيل الدفع
               </b-form-checkbox>
             </div>
           </template>
 
           <template #row-details="row">
-            <b-card class="border">
+            <b-card class="border" style="background-color: #EEF5F9">
               <b-row>
                 <b-col cols="12">
                   <div class="px-4">
-                    <h6 class="mb-3">Détails de paiement de {{row.item.full_name}} pour l'année {{currentYear.name}}</h6>
+                    <h6 class="mb-3">تفاصيل الدفع للسيد: {{row.item.full_name}}، لسنة {{currentYear.name}}</h6>
                   </div>
                   <div>
                     <b-table
                         responsive
-                        class="mb-0 mt-3"
+                        class="mb-0 mt-3 text-right"
                         :items="items2"
                         :fields="fields2"
                         :current-page="currentPage2"
                         :per-page="perPage2"
                         table-class="bg-transparent text-nowrap"
                         v-if="items2.length > 0"
-                        empty-text="Pas de données"
+                        empty-text="لايوجد بيانات"
                     >
                       <template #cell(created_at)="data">
-                        <div class="d-flex align-items-center">
-                          <div class="ml-3">
-                            {{ (data.item.created_at != null) ? data.item.created_at.substr(0, 10).split('-').reverse().join('-').toString() : "" }}
+                        <div>
+                          <div>
+                            {{ (data.item.created_at != null) ? data.item.created_at.substr(0, 10).toString() : "" }}
                           </div>
                         </div>
                       </template>
                       <template #cell(show_details3)="data">
-                        <div class="d-flex align-items-center">
+                        <div>
                           <b-button
                               v-b-popover.hover.left="data.item.motif"
                               size="sm"
@@ -164,39 +166,19 @@
                               class="mr-2"
                               @click="deleteTransaction(data.item.id)"
                           >
-                            Supprimer
+                            حذف
                           </b-button>
 
                         </div>
                       </template>
                     </b-table>
-                    <div class="d-md-flex align-items-center mt-3 mt-lg-0" v-if="items2.length > 0">
-                      <b-form-group
-                          label="Par page"
-                          label-for="per-page-select"
-                          label-cols-sm="6"
-                          label-cols-md="5"
-                          label-cols-lg="9"
-                          label-size="sm"
-                          label-class="fw-medium"
-                          class="mb-0"
-                      >
-                        <b-form-select
-                            id="per-page-select"
-                            v-model="perPage2"
-                            :options="pageOptions"
-                            size="sm"
-                        ></b-form-select>
-                      </b-form-group>
-                      <div class="ml-auto mt-2 mt-md-0">
-                        <b-pagination
-                            v-model="currentPage2"
-                            :total-rows="totalRows2"
-                            :per-page="perPage2"
-                            align="fill"
-                            class="my-0"
-                        ></b-pagination>
-                      </div>
+                    <div v-if="items2.length > 0">
+                      <b-pagination
+                          class="mt-3 float-left"
+                          v-model="currentPage2"
+                          :total-rows="totalRows2"
+                          :per-page="perPage2"
+                      ></b-pagination>
                     </div>
                     <center v-else>
                       <br/>
@@ -204,7 +186,7 @@
                       <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
                       <br/>
                       <br/>
-                      <h5>Pas de données</h5>
+                      <h5>لايوجد بيانات</h5>
                     </center>
 
                   </div>
@@ -216,33 +198,13 @@
 
         </b-table>
 
-        <div class="d-md-flex align-items-center mt-3 mt-lg-0" v-if="items.filter((element) => element != null).length > 0">
-          <b-form-group
-              label="Par page"
-              label-for="per-page-select"
-              label-cols-sm="6"
-              label-cols-md="5"
-              label-cols-lg="9"
-              label-size="sm"
-              label-class="fw-medium"
-              class="mb-0"
-          >
-            <b-form-select
-                id="per-page-select"
-                v-model="perPage"
-                :options="pageOptions"
-                size="sm"
-            ></b-form-select>
-          </b-form-group>
-          <div class="ml-auto mt-2 mt-md-0">
-            <b-pagination
-                v-model="currentPage"
-                :total-rows="totalRows"
-                :per-page="perPage"
-                align="fill"
-                class="my-0"
-            ></b-pagination>
-          </div>
+        <div v-if="items.filter((element) => element != null).length > 0">
+          <b-pagination
+              class="mt-3 float-left"
+              v-model="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+          ></b-pagination>
         </div>
 
         <center v-else>
@@ -253,7 +215,7 @@
             <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
             <br/>
             <br/>
-            <h5>Pas de données</h5>
+            <h5>لايوجد بيانات</h5>
           </div>
         </center>
 
@@ -261,7 +223,7 @@
             id="modal-center2"
             hide-footer
             centered
-            title="Ajouter un paiement"
+            title="اضافة دفعة"
         >
           <div class="d-block">
             <b-row>
@@ -274,27 +236,24 @@
                     fade
                     v-if="showSuccess"
                 >
-                  <b-button variant="success">
-                    <i class="mdi mdi-alert-octagon"></i>
-                  </b-button>
-                  Opération réussie
+                  <span class="mr-4 text-right">تمت العملية بنجاح</span>
                 </b-alert>
                 <b-alert
                     variant="danger"
-                    class="d-flex align-items-center bt-alert"
+                    class="d-flex align-items-center bt-alert text-right"
                     show
                     dismissible
                     fade
                     v-if="showError"
                 >
-                  <b-button variant="danger">
-                    <i class="mdi mdi-alert-octagon"></i>
-                  </b-button>
-                  <b-col>
+                  <b-col class="mr-4">
                     <div v-for="(errorArray, idx) in error.errors" :key="idx">
                       <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                        <span class="text-danger">{{ allErrors}} </span>
+                        <span class="text-danger text-right">{{ allErrors}} </span>
                       </div>
+                    </div>
+                    <div v-if="showErrorInvalid">
+                      <span class="text-danger text-right">{{ error.message }} </span>
                     </div>
                   </b-col>
                 </b-alert>
@@ -302,16 +261,25 @@
 
                   <b-row align-content="center" align-v="center">
                     <span class="mx-1"></span>
-                    <!--                <b-img-->
-                    <!--                    :src="'https://mega-tech.dev/jam3iya/back-end/' + form.image"-->
-                    <!--                    rounded="circle"-->
-                    <!--                    width="50"-->
-                    <!--                />-->
+                                    <b-img
+                                        :src="'https://mega-tech.dev/jam3iya/back-end/' + form.image"
+                                        rounded="circle"
+                                        width="50"
+                                        height="50"
+                                        v-if="form.image != null"
+                                    />
                     <b-img
-                        :src="'http://localhost:8000/' + form.image"
+                        :src="require('@/assets/images/users/1.jpg')"
                         rounded="circle"
                         width="50"
+                        height="50"
+                        v-else
                     />
+<!--                    <b-img-->
+<!--                        :src="'http://localhost:8000/' + form.image"-->
+<!--                        rounded="circle"-->
+<!--                        width="50"-->
+<!--                    />-->
 
                     <span class="mx-2"></span>
                     <h5>{{ form.full_name }}</h5>
@@ -320,28 +288,30 @@
 
                   <b-form-group
                       id="input-group-1"
-                      label="Motif:"
+                      label="النمط:"
                       label-for="input-1"
+                      class="text-right"
                   >
                     <b-form-input
                         id="input-1"
                         v-model="form2.motif"
                         type="text"
-                        placeholder="Entrez le motif"
+                        placeholder="ادخل النمط"
 
                     ></b-form-input>
                   </b-form-group>
 
                   <b-form-group
                       id="input-group-1"
-                      label="Prix:"
+                      label="المبلغ:"
                       label-for="input-1"
+                      class="text-right"
                   >
                     <b-form-input
                         id="input-1"
                         v-model="form2.amount"
                         type="number"
-                        placeholder="Entrez le prix"
+                        placeholder="ادخل المبلغ"
                         required
                     ></b-form-input>
                   </b-form-group>
@@ -349,7 +319,7 @@
                   <br>
 
                   <div class="btn-grp">
-                    <b-button type="submit" variant="primary">Ajouter</b-button>
+                    <b-button type="submit" variant="primary">اضافة</b-button>
                   </div>
                 </b-form>
               </b-col>
@@ -382,23 +352,23 @@ export default {
     fields: [
       {
         key: "image",
-        label: "Image",
+        label: "الصورة",
       },
       {
         key: "full_name",
-        label: "Nom et Prénom",
+        label: "الاسم واللقب",
       },
       {
         key: "month_amount",
-        label: "Montant Annuelle",
+        label: "المبلغ السنوي",
       },
       {
         key: "payed",
-        label: "Payé",
+        label: "المبلغ المدفوع",
       },
       {
         key: "rest",
-        label: "Reste",
+        label: "المبلغ الباقي",
       },
       {
         key: "show_details",
@@ -412,19 +382,19 @@ export default {
     fields2: [
       {
         key: "id",
-        label: "#Transaction",
+        label: "#الدفعة",
       },
       {
         key: "amount",
-        label: "Montant",
+        label: "المبلغ",
       },
       {
         key: "motif",
-        label: "Motif",
+        label: "النمط",
       },
       {
         key: "created_at",
-        label: "Date",
+        label: "التاريخ",
       },
       {
         key: "show_details3",
@@ -439,7 +409,7 @@ export default {
     currentPage2: 1,
     perPage: 5,
     perPage2: 5,
-    pageOptions: [5, 10, 15, { value: 100, text: "Afficher Bcp." }],
+    pageOptions: [5, 10, 15, { value: 100, text: "اضهر اكثر" }],
     form: {
       year_id: 0,
       id: 0,
@@ -455,6 +425,7 @@ export default {
     show2: true,
     currentYear: null,
     hasAccess: false,
+    showErrorInvalid: false,
     isLoading: false
   }),
   mounted() {
@@ -544,6 +515,9 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
@@ -573,17 +547,20 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
 
     },
     getPayedAmount(data) {
-      var sum = 0
+      var sum = 0;
       data.forEach(item => {
-        sum += item.amount;
+        sum += parseFloat(item.amount);
       });
-      return sum
+      return parseFloat(sum)
     },
     clearForm2() {
       this.form2.motif = ""
@@ -596,13 +573,13 @@ export default {
     deleteTransaction(idTransaction) {
 
 
-      this.$bvModal.msgBoxConfirm('Veuillez confirmer que vous souhaitez supprimer.', {
-        title: 'Veuillez confirmer',
+      this.$bvModal.msgBoxConfirm('يجب عليك تأكيد عملية الحذف', {
+        title: 'يرجى التأكيد',
         size: 'sm',
         buttonSize: 'sm',
         okVariant: 'danger',
-        okTitle: 'Oui',
-        cancelTitle: 'Non',
+        okTitle: 'نعم',
+        cancelTitle: 'لا',
         footerClass: 'p-2',
         hideHeaderClose: false,
         centered: true
@@ -623,6 +600,9 @@ export default {
                   .catch(error => {
                     this.isLoading = false
                     this.error = error.response.data
+                    if(this.error.errors === undefined){
+                      this.showErrorInvalid = true
+                    }
                     console.log(error)
                   });
 

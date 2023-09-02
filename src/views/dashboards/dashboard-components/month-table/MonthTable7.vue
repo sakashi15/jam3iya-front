@@ -2,38 +2,37 @@
   <div>
     <div v-if="hasAccess">
       <b-row>
-        <b-col cols="4">
+        <b-col cols="12" md="4">
           <b-form-group
               label-for="filter-input"
               label-align-sm="right"
               class="mb-2"
           >
             <b-input-group>
-              <b-form-input
-                  id="filter-input"
-                  v-model="filter"
-                  type="search"
-                  placeholder="Tapez quelque chose"
-              ></b-form-input>
-
               <b-input-group-append>
                 <b-button
                     variant="danger"
                     :disabled="!filter"
                     @click="filter = ''"
-                >Vider</b-button
+                >تفريغ</b-button
                 >
               </b-input-group-append>
+              <b-form-input
+                  id="filter-input"
+                  v-model="filter"
+                  type="search"
+                  placeholder="اكتب شيء للبحث"
+              ></b-form-input>
             </b-input-group>
           </b-form-group>
         </b-col>
-        <b-col cols="4">
+        <b-col md="4" cols="12">
         </b-col>
-        <b-col cols="4" class="text-right">
+        <b-col md="4" cols="12" class="text-left">
           <div class="ml-auto mt-2 mt-md-0">
             <div class="btn-grp">
               <b-button variant="outline-info" v-b-modal.modal-center @click="hideAlerts(); resetAdd()">
-                Ajouter donation
+                اضافة هبة
               </b-button>
             </div>
           </div>
@@ -50,19 +49,19 @@
           :per-page="perPage"
           table-class="bg-transparent text-nowrap"
           v-if="items.length > 0"
-          empty-text="Pas de données"
+          empty-text="لا يوجد بيانات"
       >
 
         <template #cell(created_at)="data">
           <div class="d-flex align-items-center">
             <div class="ml-3">
-              {{ (data.item.created_at != null) ? data.item.created_at.substr(0, 10).split('-').reverse().join('-').toString() : "" }}
+              {{ (data.item.created_at != null) ? data.item.created_at.substr(0, 10).toString() : "" }}
             </div>
           </div>
         </template>
 
         <template #cell(description)="data">
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center" v-if="data.item.description != null">
             <div class="ml-3">
               {{ (data.item.description.length > 20) ? data.item.description.substr(0, 20) + "..." : data.item.description }}
             </div>
@@ -78,7 +77,7 @@
                 class="mr-2"
                 v-b-modal.modal-center2
             >
-              Modifier / Supprimer
+              تعديل / حذف
             </b-button>
 
           </div>
@@ -86,33 +85,13 @@
 
       </b-table>
 
-      <div class="d-md-flex align-items-center mt-3 mt-lg-0" v-if="items.length > 0">
-        <b-form-group
-            label="Par page"
-            label-for="per-page-select"
-            label-cols-sm="6"
-            label-cols-md="5"
-            label-cols-lg="9"
-            label-size="sm"
-            label-class="fw-medium"
-            class="mb-0"
-        >
-          <b-form-select
-              id="per-page-select"
-              v-model="perPage"
-              :options="pageOptions"
-              size="sm"
-          ></b-form-select>
-        </b-form-group>
-        <div class="ml-auto mt-2 mt-md-0">
-          <b-pagination
-              v-model="currentPage"
-              :total-rows="totalRows"
-              :per-page="perPage"
-              align="fill"
-              class="my-0"
-          ></b-pagination>
-        </div>
+      <div v-if="items.length > 0">
+        <b-pagination
+            class="mt-3 float-left"
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+        ></b-pagination>
       </div>
 
       <center v-else>
@@ -123,7 +102,7 @@
           <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
           <br/>
           <br/>
-          <h5>Pas de données</h5>
+          <h5>لا يوجد بيانات</h5>
         </div>
       </center>
 
@@ -131,7 +110,7 @@
           id="modal-center"
           hide-footer
           centered
-          title="Ajouter une donation"
+          title="اضافة هبة"
       >
         <div class="d-block">
           <b-row>
@@ -145,73 +124,73 @@
                     fade
                     v-if="showSuccess"
                 >
-                  <b-button variant="success">
-                    <i class="mdi mdi-alert-octagon"></i>
-                  </b-button>
-                  Opération réussie
+                  <span class="mr-4 text-right">تمت العملية بنجاح</span>
                 </b-alert>
                 <b-alert
                     variant="danger"
-                    class="d-flex align-items-center bt-alert"
+                    class="d-flex align-items-center bt-alert text-right"
                     show
                     dismissible
                     fade
                     v-if="showError"
                 >
-                  <b-button variant="danger">
-                    <i class="mdi mdi-alert-octagon"></i>
-                  </b-button>
-                  <b-col>
+                  <b-col class="mr-4">
                     <div v-for="(errorArray, idx) in error.errors" :key="idx">
                       <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                        <span class="text-danger">{{ allErrors}} </span>
+                        <span class="text-danger text-right">{{ allErrors}} </span>
                       </div>
+                    </div>
+                    <div v-if="showErrorInvalid">
+                      <span class="text-danger text-right">{{ error.message }} </span>
                     </div>
                   </b-col>
                 </b-alert>
                 <b-form-group
                     id="input-group-1"
-                    label="Titre:"
+                    label="العنوان:"
                     label-for="input-1"
+                    class="text-right"
                 >
                   <b-form-input
                       id="input-1"
                       v-model="form.title"
                       type="text"
-                      placeholder="Entrez le titre"
+                      placeholder="ادخل العنوان"
                       required
                   ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
                     id="input-group-1"
-                    label="Prix:"
+                    label="المبلغ:"
                     label-for="input-1"
+                    class="text-right"
                 >
                   <b-form-input
                       id="input-1"
                       v-model="form.amount"
                       type="number"
-                      placeholder="Entrez le prix"
+                      placeholder="ادخل المبلغ"
                       required
                   ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
                     id="input-group-2"
-                    label="Description"
+                    label="الوصف:"
                     label-for="input-2"
+                    class="text-right"
                 >
                   <b-textarea
                       id="input-2"
                       v-model="form.description"
-                      placeholder="Entez une description"
+                      placeholder="ادخل الوصف"
                   ></b-textarea>
                 </b-form-group>
 
                 <div class="btn-grp">
-                  <b-button type="submit" variant="primary">Ajouter</b-button>
-                  <b-button type="reset" variant="outline-danger">Vider</b-button>
+                  <b-button type="submit" variant="primary">اضافة</b-button>
+                  <b-button type="reset" variant="outline-danger">تفريغ</b-button>
                 </div>
               </b-form>
             </b-col>
@@ -223,7 +202,7 @@
           id="modal-center2"
           hide-footer
           centered
-          title="Modifier une donation"
+          title="تعديل هبة"
       >
         <div class="d-block">
           <b-row>
@@ -236,27 +215,24 @@
                   fade
                   v-if="showSuccess"
               >
-                <b-button variant="success">
-                  <i class="mdi mdi-alert-octagon"></i>
-                </b-button>
-                Opération réussie
+                <span class="mr-4 text-right">تمت العملية بنجاح</span>
               </b-alert>
               <b-alert
                   variant="danger"
-                  class="d-flex align-items-center bt-alert"
+                  class="d-flex align-items-center bt-alert text-right"
                   show
                   dismissible
                   fade
                   v-if="showError"
               >
-                <b-button variant="danger">
-                  <i class="mdi mdi-alert-octagon"></i>
-                </b-button>
-                <b-col>
+                <b-col class="mr-4">
                   <div v-for="(errorArray, idx) in error.errors" :key="idx">
                     <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                      <span class="text-danger">{{ allErrors}} </span>
+                      <span class="text-danger text-right">{{ allErrors}} </span>
                     </div>
+                  </div>
+                  <div v-if="showErrorInvalid">
+                    <span class="text-danger text-right">{{ error.message }} </span>
                   </div>
                 </b-col>
               </b-alert>
@@ -264,48 +240,51 @@
 
                 <b-form-group
                     id="input-group-1"
-                    label="Titre:"
+                    label="العنوان:"
                     label-for="input-1"
+                    class="text-right"
                 >
                   <b-form-input
                       id="input-1"
                       v-model="form.title"
                       type="text"
-                      placeholder="Entrez le titre"
+                      placeholder="ادخل العنوان"
                       required
                   ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
                     id="input-group-1"
-                    label="Prix:"
+                    label="المبلغ:"
                     label-for="input-1"
+                    class="text-right"
                 >
                   <b-form-input
                       id="input-1"
                       v-model="form.amount"
                       type="number"
-                      placeholder="Entrez le prix"
+                      placeholder="ادخل المبلغ"
                       required
                   ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
                     id="input-group-2"
-                    label="Description"
+                    label="الوصف:"
                     label-for="input-2"
+                    class="text-right"
                 >
                   <b-textarea
                       id="input-2"
                       v-model="form.description"
-                      placeholder="Entez une description"
+                      placeholder="ادخل الوصف:"
 
                   ></b-textarea>
                 </b-form-group>
 
                 <div class="btn-grp">
-                  <b-button type="submit" variant="primary">Modifier</b-button>
-                  <b-button variant="outline-danger" @click="onReset2">Supprimer</b-button>
+                  <b-button type="submit" variant="primary">تعديل</b-button>
+                  <b-button variant="outline-danger" @click="onReset2">حذف</b-button>
                 </div>
               </b-form>
             </b-col>
@@ -332,19 +311,19 @@ export default {
     fields: [
       {
         key: "title",
-        label: "Titre",
+        label: "العنوان",
       },
       {
         key: "amount",
-        label: "Prix (DA)",
+        label: "المبلغ (دج)",
       },
       {
         key: "description",
-        label: "Description",
+        label: "الوصف",
       },
       {
         key: "created_at",
-        label: "Date",
+        label: "التاريخ",
       },
       {
         key: "show_details",
@@ -367,7 +346,8 @@ export default {
     showError: false,
     showSuccess: false,
     hasAccess: false,
-    isLoading: false
+    isLoading: false,
+    showErrorInvalid: false
   }),
   mounted() {
     var role = localStorage.getItem("role");
@@ -398,6 +378,9 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
@@ -439,6 +422,9 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
@@ -457,13 +443,13 @@ export default {
     onReset2() {
 
 
-      this.$bvModal.msgBoxConfirm('Veuillez confirmer que vous souhaitez supprimer.', {
-        title: 'Veuillez confirmer',
+      this.$bvModal.msgBoxConfirm('يجب عليك تأكيد عملية الحذف', {
+        title: 'يرجى التأكيد',
         size: 'sm',
         buttonSize: 'sm',
         okVariant: 'danger',
-        okTitle: 'Oui',
-        cancelTitle: 'Non',
+        okTitle: 'نعم',
+        cancelTitle: 'لا',
         footerClass: 'p-2',
         hideHeaderClose: false,
         centered: true
@@ -489,6 +475,9 @@ export default {
                   .catch(error => {
                     this.isLoading = false
                     this.error = error.response.data
+                    if(this.error.errors === undefined){
+                      this.showErrorInvalid = true
+                    }
                     console.log(error)
                     this.showError = true
                   });

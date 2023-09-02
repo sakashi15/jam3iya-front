@@ -6,41 +6,38 @@
     tag="section"
   >
     <b-row class="justify-content-center no-gutters">
-      <b-col lg="9" md="9" class="d-flex align-items-center">
+      <b-col lg="12" md="12" class="d-flex align-items-center">
         <b-card no-body>
           <b-row class="no-gutters">
-            <b-col
-              lg="7"
-              class="bg-primary d-md-flex align-items-center justify-content-center"
-            >
-              <div class="d-flex align-items-center">
+            <b-col lg="7" class="bg-primary d-md-flex align-items-center justify-content-center">
+              <div class="d-flex align-items-center text-right">
                 <div class="p-5">
                   <div>
                     <h2 class="display-5 text-white fw-medium">
-                      Nous offrons des logiciels élégants avec des fonctionnalités illimitées
+                      نحن نقدم برامج أنيقة مع ميزات غير محدودة
                     </h2>
                     <p class="mt-4 text-white op-5 font-weight-normal">
-                      Un programme simple pour gérer les abonnements mensuels et annuels des membres d'une association ou d'une institution spécifique
+                      برنامج بسيط لإدارة الاشتراكات الشهرية والسنوية لأعضاء جمعية أو مؤسسة معينة
                     </p>
                     <b-button
                       size="lg"
                       variant="info"
                       class="mt-4 text-capitalize"
-                      >Voir plus</b-button
+                      >إكتشف اكثر</b-button
                     >
                   </div>
                 </div>
               </div>
             </b-col>
-            <b-col>
-              <div class="p-4">
+            <b-col lg="5">
+              <div class="p-4 text-right">
                 <br>
                 <br>
-                <img src="@/assets/images/logo-part1.png" height="50"/>
-                <h2 class="font-weight-bold mt-4">Se connecter</h2>
+                <img src="@/assets/images/logo.jpeg" height="80" width="90"/>
+                <h2 class="font-weight-bold mt-4">تسجيل الدخول</h2>
                 <h6 class="mb-4">
-                  Vous n'avez pas de compte?
-                  <b-link to="">Contactez-nous</b-link>
+                  ليس لدك حساب ؟
+                  <b-link to="">إتصل بنا</b-link>
                 </h6>
 
                 <b-alert
@@ -51,30 +48,24 @@
                     fade
                     v-if="showSuccess"
                 >
-                  <b-button variant="success">
-                    <i class="mdi mdi-alert-octagon"></i>
-                  </b-button>
-                  Opération réussie
+                  <span class="mr-4 text-right">تمت العملية بنجاح</span>
                 </b-alert>
                 <b-alert
                     variant="danger"
-                    class="d-flex align-items-center bt-alert"
+                    class="d-flex align-items-center bt-alert text-right"
                     show
                     dismissible
                     fade
                     v-if="showError"
                 >
-                  <b-button variant="danger">
-                    <i class="mdi mdi-alert-octagon"></i>
-                  </b-button>
-                  <b-col>
+                  <b-col class="mr-4">
                     <div v-for="(errorArray, idx) in error.errors" :key="idx">
                       <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                        <span class="text-danger">{{ allErrors}} </span>
+                        <span class="text-danger text-right">{{ allErrors}} </span>
                       </div>
                     </div>
                     <div v-if="showErrorInvalid">
-                      <span class="text-danger">{{ error.message }} </span>
+                      <span class="text-danger text-right">{{ error.message }} </span>
                     </div>
                   </b-col>
                 </b-alert>
@@ -84,26 +75,26 @@
                     <b-form-input
                       id="txt-username"
                       type="text"
-                      placeholder="Saisissez votre nom d'utilisateur"
+                      placeholder="ادخل اسم المستخدم"
                       class="mb-3"
                       v-model="$v.form.username.$model"
                       :state="validateState('username')"
                     ></b-form-input>
                     <b-form-invalid-feedback id="txt-username"
-                      >Ceci est un champ obligatoire</b-form-invalid-feedback
+                      >هذا الحقل اجباري</b-form-invalid-feedback
                     >
                   </b-form-group>
                   <b-form-group>
                     <b-form-input
                       id="txt-pwd"
                       type="password"
-                      placeholder="Entrer le mot de passe"
+                      placeholder="ادخل كلمة المرور"
                       class="mb-3"
                       v-model="$v.form.pwd.$model"
                       :state="validateState('pwd')"
                     ></b-form-input>
                     <b-form-invalid-feedback id="txt-pwd"
-                      >Ceci est un champ obligatoire</b-form-invalid-feedback
+                      >هذا الحقل اجباري</b-form-invalid-feedback
                     >
                   </b-form-group>
 
@@ -114,7 +105,7 @@
                     size="lg"
                     block
                     class="mt-4"
-                    >Se connecter</b-button
+                    >سجل دخولك</b-button
                   >
                 </b-form>
                <br>
@@ -146,6 +137,10 @@ export default {
     showErrorInvalid: false
   }),
   computed: {},
+  mounted() {
+    this.$store.commit("SET_DIRECTION", "rtl");
+    document.documentElement.setAttribute("dir", "rtl");
+  },
   validations: {
     form: {
       username: {

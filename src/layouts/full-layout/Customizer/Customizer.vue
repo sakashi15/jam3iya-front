@@ -227,7 +227,8 @@ export default {
   },
   mounted() {
     //const {value} = this.Direction
-    document.documentElement.setAttribute("dir", this.Direction);
+    this.$store.commit("SET_DIRECTION", "rtl");
+    document.documentElement.setAttribute("dir", "rtl");
   },
   methods: {
     setLogoBg(val) {

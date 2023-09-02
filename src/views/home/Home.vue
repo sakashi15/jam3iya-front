@@ -14,14 +14,15 @@
                   <img
                       src="@/assets/images/logo.jpeg"
                       alt="logo"
-                      class="rounded-circle"
-                      width="200"
+                      class="rounded-circle mt-4"
+                      width="150"
                       height="100"
                   />
                 </div>
-                <div class="pl-0 mt-4">
-                  <h3 class="mb-2">Afaq Association</h3>
-                  <h6 class="mb-3">Zaouia Lekbira - Kerzaz</h6>
+                <div class="pl-2 mt-4 mr-2">
+                  <h1 class="mb-2 float-right">جمعية الآفـــاق</h1>
+                  <br>
+                  <h6 class="mb-3 float-right">الزاوية الكبيرة - كرزاز</h6>
                 </div>
               </div>
               <hr class="custom-hr" />
@@ -29,30 +30,30 @@
                 <b-col cols="12" md="4" lg="2">
                   <b-card class="mb-1 text-center">
                     <img src="@/assets/images/users/people.png" class="img-fluid rounded-circle" width="65"/>
-                    <h5 class="card-title mt-2 mb-1 pb-1">Gestion des Personnes</h5>
+                    <h5 class="card-title mt-2 mb-1 pb-1">تسيير الاعضاء</h5>
 
-                    <b-button block href="/persons" pill variant="danger" class="mt-1 d-flex align-items-center justify-content-center">
-                      Afficher
+                    <b-button block href="/jam3iya/persons" pill variant="danger" class="mt-1 d-flex align-items-center justify-content-center">
+                      اضهار
                     </b-button>
                   </b-card>
                 </b-col>
                 <b-col cols="12" md="4" lg="2">
                   <b-card class="mb-1 text-center">
                     <img src="@/assets/images/users/money-management.png" class="img-fluid rounded-circle" width="65" />
-                    <h5 class="card-title mt-2 mb-1 pb-1">Dépenses Ass. Afaq Zaouia</h5>
+                    <h5 class="card-title mt-2 mb-1 pb-1">نفقات الجمعية</h5>
 
-                    <b-button block href="/expenses" pill variant="primary" class="mt-1 d-flex align-items-center justify-content-center">
-                      Afficher
+                    <b-button block href="/jam3iya/expenses" pill variant="primary" class="mt-1 d-flex align-items-center justify-content-center">
+                      اضهار
                     </b-button>
                   </b-card>
                 </b-col>
                 <b-col cols="12" md="4" lg="2">
                   <b-card class="mb-1 text-center">
                     <img src="@/assets/images/users/collateral.png" class="img-fluid rounded-circle" width="65" />
-                    <h5 class="card-title mt-2 mb-1 pb-1">Dépenses Dar El Jama3a</h5>
+                    <h5 class="card-title mt-2 mb-1 pb-1">نفقات دار الجماعة</h5>
 
-                    <b-button block href="/expenses_dar_jma3a" pill variant="warning" class="mt-1 d-flex align-items-center justify-content-center text-white">
-                      Afficher
+                    <b-button block href="/jam3iya/expenses_dar_jma3a" pill variant="warning" class="mt-1 d-flex align-items-center justify-content-center text-white">
+                      اضهار
                     </b-button>
                   </b-card>
                 </b-col>
@@ -62,15 +63,15 @@
                         src="@/assets/images/users/payment.png"
                         class="img-fluid rounded-circle"
                         width="65"/>
-                    <h5 class="card-title mt-2 mb-1 pb-1">Abonnement des Membres</h5>
+                    <h5 class="card-title mt-2 mb-1 pb-1">اشتراكات الاعضاء</h5>
 
                     <b-button
                         block
-                        href="/member_subscriptions"
+                        href="/jam3iya/member_subscriptions"
                         pill
                         variant="success"
                         class="mt-1 d-flex align-items-center justify-content-center">
-                      Afficher</b-button>
+                      اضهار</b-button>
                   </b-card>
                 </b-col>
                 <b-col cols="12" md="4" lg="2">
@@ -79,16 +80,16 @@
                         src="@/assets/images/users/statistics.png"
                         class="img-fluid rounded-circle"
                         width="65"/>
-                    <h5 class="card-title mt-2 mb-1 pb-1">Afaq Association Statistiques</h5>
+                    <h5 class="card-title mt-2 mb-1 pb-1">احصائيات الجمعية</h5>
 
                     <b-button
                         block
-                        href="/statistics"
+                        href="/jam3iya/statistics"
                         pill
                         variant="info"
                         class="mt-1 d-flex align-items-center justify-content-center text-white">
 
-                      Afficher</b-button>
+                      اضهار</b-button>
                   </b-card>
                 </b-col>
                 <b-col cols="12" md="4" lg="2">
@@ -97,15 +98,15 @@
                         src="@/assets/images/users/reminder.png"
                         class="img-fluid rounded-circle"
                         width="65"/>
-                    <h5 class="card-title mt-2 mb-1 pb-1">Gestion des Années et Types</h5>
+                    <h5 class="card-title mt-2 mb-1 pb-1">السنوات المالية والانواع</h5>
 
                     <b-button
                         block
-                        href="/years-types"
+                        href="/jam3iya/years-types"
                         pill
                         variant="primary"
                         class="mt-1 d-flex align-items-center justify-content-center">
-                      Afficher
+                      اضهار
                     </b-button>
                   </b-card>
                 </b-col>

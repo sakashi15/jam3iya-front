@@ -8,12 +8,12 @@
             <VerticalHeader v-if="!setHorizontalLayout" />
             <HorizontalHeader v-if="setHorizontalLayout"/>
             <HorizontalSidebar v-if="setHorizontalLayout" />
-            <div class="min-height" :class="setHorizontalLayout == true ? 'container-fluid p-4' : 'container-fluid p-4'">
+            <div class="min-height text-right" :class="setHorizontalLayout == true ? 'container-fluid p-4' : 'container-fluid p-4'">
                 <h4 v-if="$route.path !== '/starter'">{{$route.name}}</h4>
-                <b-breadcrumb class="p-0" v-if="$route.path !== '/starter'">
-                <b-breadcrumb-item to="/" custom > Accueil </b-breadcrumb-item>
-                <b-breadcrumb-item active>{{$route.name}}</b-breadcrumb-item>
-            </b-breadcrumb>
+                <b-breadcrumb class="p-0" style="direction: ltr" v-if="$route.path !== '/starter'">
+                  <b-breadcrumb-item active>{{$route.name}}</b-breadcrumb-item>
+                  <b-breadcrumb-item to="/" custom > الرئيسة </b-breadcrumb-item>
+                </b-breadcrumb>
                 <router-view />
             </div>
             <Customizer/>

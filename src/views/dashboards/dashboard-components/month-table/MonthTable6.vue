@@ -1,38 +1,37 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="6">
+      <b-col cols="12" md="4">
         <b-form-group
             label-for="filter-input-type"
             label-align-sm="right"
             class="mb-2"
         >
           <b-input-group>
-            <b-form-input
-                id="filter-input-type"
-                v-model="filter"
-                type="search"
-                placeholder="Tapez quelque chose"
-            ></b-form-input>
-
             <b-input-group-append>
               <b-button
                   variant="danger"
                   :disabled="!filter"
                   @click="filter = ''"
-              >Vider</b-button
+              >تفريغ</b-button
               >
             </b-input-group-append>
+            <b-form-input
+                id="filter-input-type"
+                v-model="filter"
+                type="search"
+                placeholder="اكتب شيء للبحث"
+            ></b-form-input>
           </b-input-group>
         </b-form-group>
       </b-col>
-      <b-col cols="2">
+      <b-col md="4" cols="12">
       </b-col>
-      <b-col cols="4" class="text-right">
+      <b-col md="4" cols="12" class="text-left">
         <div class="ml-auto mt-2 mt-md-0">
           <div class="btn-grp">
             <b-button variant="outline-info" v-b-modal.modal-center3 @click="hideAlerts(); resetAdd()">
-              Ajouter un type
+              اضافة نوع
             </b-button>
           </div>
         </div>
@@ -41,7 +40,7 @@
 
     <b-table
         responsive
-        class="mb-0 mt-3"
+        class="mb-0 mt-3 text-right"
         :items="items"
         :fields="fields"
         :filter="filter"
@@ -49,7 +48,7 @@
         :per-page="perPage"
         table-class="bg-transparent text-nowrap"
         v-if="items.length > 0"
-        empty-text="Pas de données"
+        empty-text="لايوجد بيانات"
     >
 
       <template #cell(show_details)="data">
@@ -61,7 +60,7 @@
               class="mr-2"
               v-b-modal.modal-center4
           >
-            Modifier / Supprimer
+            تعديل / حذف
           </b-button>
 
         </div>
@@ -69,33 +68,13 @@
 
     </b-table>
 
-    <div class="d-md-flex align-items-center mt-3 mt-lg-0" v-if="items.length > 0">
-      <b-form-group
-          label="Par page"
-          label-for="per-page-select"
-          label-cols-sm="6"
-          label-cols-md="5"
-          label-cols-lg="9"
-          label-size="sm"
-          label-class="fw-medium"
-          class="mb-0"
-      >
-        <b-form-select
-            id="per-page-select"
-            v-model="perPage"
-            :options="pageOptions"
-            size="sm"
-        ></b-form-select>
-      </b-form-group>
-      <div class="ml-auto mt-2 mt-md-0">
-        <b-pagination
-            v-model="currentPage"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            align="fill"
-            class="my-0"
-        ></b-pagination>
-      </div>
+    <div v-if="items.length > 0">
+      <b-pagination
+          class="mt-3 float-left"
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+      ></b-pagination>
     </div>
 
     <center v-else>
@@ -106,7 +85,7 @@
         <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
         <br/>
         <br/>
-        <h5>Pas de données</h5>
+        <h5>لايوجد بيانات</h5>
       </div>
     </center>
 
@@ -114,7 +93,7 @@
         id="modal-center3"
         hide-footer
         centered
-        title="Ajouter un type"
+        title="اضافة نوع جديد"
     >
       <div class="d-block">
         <b-row>
@@ -127,27 +106,24 @@
                 fade
                 v-if="showSuccess"
             >
-              <b-button variant="success">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              Opération réussie
+              <span class="mr-4 text-right">تمت العملية بنجاح</span>
             </b-alert>
             <b-alert
                 variant="danger"
-                class="d-flex align-items-center bt-alert"
+                class="d-flex align-items-center bt-alert text-right"
                 show
                 dismissible
                 fade
                 v-if="showError"
             >
-              <b-button variant="danger">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              <b-col>
+              <b-col class="mr-4">
                 <div v-for="(errorArray, idx) in error.errors" :key="idx">
                   <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                    <span class="text-danger">{{ allErrors}} </span>
+                    <span class="text-danger text-right">{{ allErrors}} </span>
                   </div>
+                </div>
+                <div v-if="showErrorInvalid">
+                  <span class="text-danger text-right">{{ error.message }} </span>
                 </div>
               </b-col>
             </b-alert>
@@ -156,32 +132,34 @@
 
               <b-form-group
                   id="input-group-1"
-                  label="Type: "
+                  label="النوع: "
                   label-for="input-1"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-1"
                     v-model="form.name"
-                    placeholder="Entrez le type"
+                    placeholder="ادخل النوع"
                     required
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-1"
-                  label="Description: "
+                  label="الوصف: "
                   label-for="input-1"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-1"
                     v-model="form.description"
-                    placeholder="Entrez la description"
+                    placeholder="ادخل الوصف"
                 ></b-form-input>
               </b-form-group>
 
               <div class="btn-grp">
-                <b-button type="submit" variant="primary">Ajouter</b-button>
-                <b-button type="reset" variant="outline-danger">Vider</b-button>
+                <b-button type="submit" variant="primary">اضافة</b-button>
+                <b-button type="reset" variant="outline-danger">تفريغ</b-button>
               </div>
             </b-form>
           </b-col>
@@ -193,7 +171,7 @@
         id="modal-center4"
         hide-footer
         centered
-        title="Modifier un type"
+        title="تعديل نوع"
     >
       <div class="d-block">
         <b-row>
@@ -206,27 +184,24 @@
                 fade
                 v-if="showSuccess"
             >
-              <b-button variant="success">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              Opération réussie
+              <span class="mr-4 text-right">تمت العملية بنجاح</span>
             </b-alert>
             <b-alert
                 variant="danger"
-                class="d-flex align-items-center bt-alert"
+                class="d-flex align-items-center bt-alert text-right"
                 show
                 dismissible
                 fade
                 v-if="showError"
             >
-              <b-button variant="danger">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              <b-col>
+              <b-col class="mr-4">
                 <div v-for="(errorArray, idx) in error.errors" :key="idx">
                   <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                    <span class="text-danger">{{ allErrors}} </span>
+                    <span class="text-danger text-right">{{ allErrors}} </span>
                   </div>
+                </div>
+                <div v-if="showErrorInvalid">
+                  <span class="text-danger text-right">{{ error.message }} </span>
                 </div>
               </b-col>
             </b-alert>
@@ -234,32 +209,34 @@
 
               <b-form-group
                   id="input-group-1"
-                  label="Type: "
+                  label="النوع: "
                   label-for="input-1"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-1"
                     v-model="form.name"
-                    placeholder="Entrez le type"
+                    placeholder="ادخل النوع"
                     required
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-1"
-                  label="Description: "
+                  label="الوصف: "
                   label-for="input-1"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-1"
                     v-model="form.description"
-                    placeholder="Entrez la description"
+                    placeholder="ادخل الوصف"
                 ></b-form-input>
               </b-form-group>
 
               <div class="btn-grp">
-                <b-button type="submit" variant="primary">Modifier</b-button>
-                <b-button variant="outline-danger" @click="onReset2">Supprimer</b-button>
+                <b-button type="submit" variant="primary">تعديل</b-button>
+                <b-button variant="outline-danger" @click="onReset2">حذف</b-button>
               </div>
             </b-form>
           </b-col>
@@ -281,11 +258,11 @@ export default {
     fields: [
       {
         key: "name",
-        label: "Nom",
+        label: "النوع",
       },
       {
         key: "description",
-        label: "Description",
+        label: "الوصف",
       },
       {
         key: "show_details",
@@ -296,7 +273,7 @@ export default {
     totalRows: 1,
     currentPage: 1,
     perPage: 5,
-    pageOptions: [5, 10, 15, { value: 100, text: "Afficher Bcp." }],
+    pageOptions: [5, 10, 15, { value: 100, text: "اضهار اكثر" }],
     form: {
       id: 0,
       name : "",
@@ -307,7 +284,8 @@ export default {
     error: null,
     showError: false,
     showSuccess: false,
-    isLoading: false
+    isLoading: false,
+    showErrorInvalid: false
   }),
   mounted() {
     this.totalRows = this.items.length;
@@ -335,6 +313,9 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
@@ -376,6 +357,9 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
@@ -397,13 +381,13 @@ export default {
 
 
 
-      this.$bvModal.msgBoxConfirm('Veuillez confirmer que vous souhaitez supprimer.', {
-        title: 'Veuillez confirmer',
+      this.$bvModal.msgBoxConfirm('يجب عليك تأكيد عملية الحذف', {
+        title: 'يرجى التأكيد',
         size: 'sm',
         buttonSize: 'sm',
         okVariant: 'danger',
-        okTitle: 'Oui',
-        cancelTitle: 'Non',
+        okTitle: 'نعم',
+        cancelTitle: 'لا',
         footerClass: 'p-2',
         hideHeaderClose: false,
         centered: true
@@ -430,6 +414,9 @@ export default {
                   .catch(error => {
                     this.isLoading = false
                     this.error = error.response.data
+                    if(this.error.errors === undefined){
+                      this.showErrorInvalid = true
+                    }
                     console.log(error)
                     this.showError = true
                   });

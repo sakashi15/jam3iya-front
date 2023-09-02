@@ -1,38 +1,37 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="4">
+      <b-col cols="12" md="4">
         <b-form-group
             label-for="filter-input"
             label-align-sm="right"
             class="mb-2"
         >
           <b-input-group>
-            <b-form-input
-                id="filter-input"
-                v-model="filter"
-                type="search"
-                placeholder="Tapez quelque chose"
-            ></b-form-input>
-
             <b-input-group-append>
               <b-button
                   variant="danger"
                   :disabled="!filter"
                   @click="filter = ''"
-              >Vider</b-button
+              >تفريع</b-button
               >
             </b-input-group-append>
+            <b-form-input
+                id="filter-input"
+                v-model="filter"
+                type="search"
+                placeholder="اكتب شيء للبحث"
+            ></b-form-input>
           </b-input-group>
         </b-form-group>
       </b-col>
-      <b-col cols="4">
+      <b-col md="4" cols="12">
       </b-col>
-      <b-col cols="4" class="text-right">
+      <b-col md="4" cols="12" class="text-left">
         <div class="ml-auto mt-2 mt-md-0">
           <div class="btn-grp">
             <b-button variant="outline-info" v-b-modal.modal-center @click="hideAlerts(); resetAdd()">
-              Ajouter personne
+              اضافة عضو
             </b-button>
           </div>
         </div>
@@ -43,7 +42,7 @@
 
     <b-table
       responsive
-      class="mb-0 mt-3"
+      class="mb-0 mt-3 text-right"
       :items="items"
       :fields="fields"
       :filter="filter"
@@ -51,24 +50,24 @@
       :per-page="perPage"
       table-class="bg-transparent text-nowrap"
       v-if="items.length > 0"
-      empty-text="Pas de données"
+      empty-text="لايوجد بيانات"
     >
 
       <template #cell(image)="data">
-<!--        <b-img-->
-<!--            :src="'https://mega-tech.dev/jam3iya/back-end/' + data.item.image"-->
-<!--            rounded="circle"-->
-<!--            width="50"-->
-<!--            height="50"-->
-<!--            v-if="data.item.image != null"-->
-<!--        />-->
         <b-img
-            :src="'http://localhost:8000/' + data.item.image"
+            :src="'https://mega-tech.dev/jam3iya/back-end/' + data.item.image"
             rounded="circle"
             width="50"
             height="50"
             v-if="data.item.image != null"
         />
+<!--        <b-img-->
+<!--            :src="'http://localhost:8000/' + data.item.image"-->
+<!--            rounded="circle"-->
+<!--            width="50"-->
+<!--            height="50"-->
+<!--            v-if="data.item.image != null"-->
+<!--        />-->
         <b-img
             :src="require('@/assets/images/users/1.jpg')"
             rounded="circle"
@@ -77,8 +76,8 @@
         />
       </template>
       <template #cell(full_name)="data">
-        <div class="d-flex align-items-center">
-          <div class="ml-3">
+        <div>
+          <div>
             <h6 class="fw-medium mb-0">
               {{ data.item.full_name }}
             </h6>
@@ -86,8 +85,8 @@
         </div>
       </template>
       <template #cell(email)="data">
-        <div class="d-flex align-items-center">
-          <div class="ml-3">
+        <div>
+          <div>
             <h6 class="fw-medium mb-0">
               {{ data.item.email }}
             </h6>
@@ -95,8 +94,8 @@
         </div>
       </template>
       <template #cell(phone)="data">
-        <div class="d-flex align-items-center">
-          <div class="ml-3">
+        <div>
+          <div>
             <h6 class="fw-medium mb-0">
               {{ data.item.phone }}
             </h6>
@@ -104,19 +103,19 @@
         </div>
       </template>
       <template #cell(birth_date)="data">
-        <div class="d-flex align-items-center">
-          <div class="ml-3">
+        <div>
+          <div>
             <h6 class="fw-medium mb-0">
-              {{ (data.item.birth_date != null) ? data.item.birth_date.split('-').reverse().join('-').toString() : "" }}
+              {{ (data.item.birth_date != null) ? data.item.birth_date.toString() : "" }}
             </h6>
           </div>
         </div>
       </template>
 
       <template #cell(show_details)="data">
-        <div class="d-flex align-items-center">
+        <div>
           <b-button
-            v-b-popover.hover.left="data.item.full_name"
+            v-b-popover.hover.right="data.item.full_name"
             title="Nom complète"
             size="sm"
             variant="primary"
@@ -124,7 +123,7 @@
             class="mr-2"
             v-b-modal.modal-center2
           >
-             Modifier / Supprimer
+             تعديل / حذف
           </b-button>
 
         </div>
@@ -132,33 +131,13 @@
 
     </b-table>
 
-    <div class="d-md-flex align-items-center mt-3 mt-lg-0" v-if="items.length > 0">
-      <b-form-group
-        label="Par page"
-        label-for="per-page-select"
-        label-cols-sm="6"
-        label-cols-md="5"
-        label-cols-lg="9"
-        label-size="sm"
-        label-class="fw-medium"
-        class="mb-0"
-      >
-        <b-form-select
-          id="per-page-select"
-          v-model="perPage"
-          :options="pageOptions"
-          size="sm"
-        ></b-form-select>
-      </b-form-group>
-      <div class="ml-auto mt-2 mt-md-0">
-        <b-pagination
+    <div v-if="items.length > 0">
+      <b-pagination
+          class="mt-3 float-left"
           v-model="currentPage"
           :total-rows="totalRows"
           :per-page="perPage"
-          align="fill"
-          class="my-0"
-        ></b-pagination>
-      </div>
+      ></b-pagination>
     </div>
 
     <center v-else>
@@ -169,7 +148,7 @@
         <b-img :src="require('@/assets/images/folder.png')" width="150" height="150"/>
         <br/>
         <br/>
-        <h5>Pas de données</h5>
+        <h5>لايوجد بيانات</h5>
       </div>
     </center>
 
@@ -177,7 +156,8 @@
         id="modal-center"
         hide-footer
         centered
-        title="Ajouter une personne"
+        title="اضافة عضو جديد"
+        class="text-right"
     >
       <div class="d-block">
         <b-row>
@@ -190,104 +170,104 @@
                 fade
                 v-if="showSuccess"
             >
-              <b-button variant="success">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              Opération réussie
+              <span class="mr-4 text-right">تمت العملية بنجاح</span>
             </b-alert>
             <b-alert
                 variant="danger"
-                class="d-flex align-items-center bt-alert"
+                class="d-flex align-items-center bt-alert text-right"
                 show
                 dismissible
                 fade
                 v-if="showError"
             >
-              <b-button variant="danger">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              <b-col>
+              <b-col class="mr-4">
                 <div v-for="(errorArray, idx) in error.errors" :key="idx">
                   <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                    <span class="text-danger">{{ allErrors}} </span>
+                    <span class="text-danger text-right">{{ allErrors}} </span>
                   </div>
+                </div>
+                <div v-if="showErrorInvalid">
+                  <span class="text-danger text-right">{{ error.message }} </span>
                 </div>
               </b-col>
             </b-alert>
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
               <b-form-group
                   id="input-group-1"
-                  label="Adress email:"
+                  label="عنوان البريد الالكتروني:"
                   label-for="input-1"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-1"
                     v-model="form.email"
                     type="email"
-                    placeholder="Entrez l'e-mail"
+                    placeholder="ادخل البريد الالكتروني"
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="Le nom et le prénom:"
+                  label="الاسم واللقب:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-2"
                     v-model="form.full_name"
-                    placeholder="Entez nom et prénom"
+                    placeholder="ادخل الاسم واللقب"
                     required
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="La date de naissance:"
+                  label="تاريخ الميلاد:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-2"
                     type="date"
                     v-model="form.birth_date"
-                    placeholder="Entez la date de naissance"
+                    placeholder="ادخل تاريخ الميلاد"
                     required
+                    class="text-right"
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="Téléphone:"
+                  label="رقم الهاتف:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-2"
                     v-model="form.phone"
-                    placeholder="Entez la numéro téléphone"
+                    placeholder="ادخل رقم الهاتف"
                     required
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="Image:"
+                  label="الصورة:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-file
                     id="file-default"
                     type="file"
                     v-model="form.image"
-                    placeholder="selectionnez une image"
+                    placeholder="اختر صورة"
+                    browse-text="اختر صورة"
                 ></b-form-file>
               </b-form-group>
 
-
-
-
-
               <div class="btn-grp">
-                <b-button type="submit" variant="primary">Ajouter</b-button>
-                <b-button type="reset" variant="outline-danger">Vider</b-button>
+                <b-button type="submit" variant="primary">اضافة</b-button>
+                <b-button type="reset" variant="outline-danger">تفريغ</b-button>
               </div>
             </b-form>
           </b-col>
@@ -300,7 +280,8 @@
         id="modal-center2"
         hide-footer
         centered
-        title="Modifier une personne"
+        title="تعديل عضو"
+        class="text-right"
     >
       <div class="d-block">
         <b-row>
@@ -313,94 +294,98 @@
                 fade
                 v-if="showSuccess"
             >
-              <b-button variant="success">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              Opération réussie
+              <span class="mr-4 text-right">تمت العملية بنجاح</span>
             </b-alert>
             <b-alert
                 variant="danger"
-                class="d-flex align-items-center bt-alert"
+                class="d-flex align-items-center bt-alert text-right"
                 show
                 dismissible
                 fade
                 v-if="showError"
             >
-              <b-button variant="danger">
-                <i class="mdi mdi-alert-octagon"></i>
-              </b-button>
-              <b-col>
+              <b-col class="mr-4">
                 <div v-for="(errorArray, idx) in error.errors" :key="idx">
                   <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                    <span class="text-danger">{{ allErrors}} </span>
+                    <span class="text-danger text-right">{{ allErrors}} </span>
                   </div>
+                </div>
+                <div v-if="showErrorInvalid">
+                  <span class="text-danger text-right">{{ error.message }} </span>
                 </div>
               </b-col>
             </b-alert>
             <b-form @submit="onSubmit2" v-if="show2">
               <b-form-group
                   id="input-group-1"
-                  label="Adress email:"
+                  label="عنوان البريد الالكتروني:"
                   label-for="input-1"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-1"
                     v-model="form.email"
                     type="email"
-                    placeholder="Entrez l'e-mail"
+                    placeholder="ادخل البريد الالكتروني"
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="Le nom et le prénom:"
+                  label="الاسم واللقب:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-2"
                     v-model="form.full_name"
-                    placeholder="Entez nom et prénom"
+                    placeholder="ادخل الاسم واللقب"
                     required
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="La date de naissance:"
+                  label="تاريخ الميلاد:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-2"
                     type="date"
                     v-model="form.birth_date"
-                    placeholder="Entez la date de naissance"
+                    placeholder="ادخل تاريخ الميلاد"
                     required
+                    class="text-right"
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="Téléphone:"
+                  label="رقم الهاتف:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-input
                     id="input-2"
                     v-model="form.phone"
-                    placeholder="Entez la numéro téléphone"
+                    placeholder="ادخل رقم الهاتف"
                     required
                 ></b-form-input>
               </b-form-group>
 
               <b-form-group
                   id="input-group-2"
-                  label="Image:"
+                  label="الصورة:"
                   label-for="input-2"
+                  class="text-right"
               >
                 <b-form-file
                     id="file-default"
                     type="file"
                     v-model="currentImage"
-                    placeholder="selectionnez une image"
+                    placeholder="اختر صورة"
+                    browse-text="اختر صورة"
                 ></b-form-file>
               </b-form-group>
 
@@ -409,8 +394,8 @@
 
 
               <div class="btn-grp">
-                <b-button type="submit" variant="primary">Modifier</b-button>
-                <b-button @click="onReset2" variant="outline-danger">Supprimer</b-button>
+                <b-button type="submit" variant="primary">تعديل</b-button>
+                <b-button @click="onReset2" variant="outline-danger">حذف</b-button>
               </div>
             </b-form>
           </b-col>
@@ -434,23 +419,23 @@ export default {
     fields: [
       {
         key: "image",
-        label: "Image",
+        label: "الصورة",
       },
       {
         key: "full_name",
-        label: "Nom et prénom",
+        label: "الاسم واللقب",
       },
       {
         key: "email",
-        label: "Email",
+        label: "الايميل",
       },
       {
         key: "phone",
-        label: "Téléphone",
+        label: "الهاتف",
       },
       {
         key: "birth_date",
-        label: "Date Naissance",
+        label: "تاريخ الميلاد",
       },
       {
         key: "show_details",
@@ -462,7 +447,7 @@ export default {
     totalRows: 1,
     currentPage: 1,
     perPage: 5,
-    pageOptions: [5, 10, 15, { value: 100, text: "Afficher Bcp." }],
+    pageOptions: [5, 10, 15, { value: 100, text: "استضهر اكثر" }],
     form: {
       email: "",
       full_name: "",
@@ -475,6 +460,7 @@ export default {
     error: null,
     showError: false,
     showSuccess: false,
+    showErrorInvalid: false,
     currentImage: null,
     isLoading: false
   }),
@@ -507,6 +493,9 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
@@ -526,6 +515,7 @@ export default {
           .catch(error => {
             this.isLoading = false
             console.log(error.response.data)
+
           });
     },
     onSubmit2(event) {
@@ -557,6 +547,9 @@ export default {
             this.isLoading = false
             this.showSuccess = false
             this.error = error.response.data
+            if(this.error.errors === undefined){
+              this.showErrorInvalid = true
+            }
             console.log(error)
             this.showError = true
           });
@@ -575,13 +568,13 @@ export default {
     },
     onReset2() {
 
-      this.$bvModal.msgBoxConfirm('Veuillez confirmer que vous souhaitez supprimer.', {
-        title: 'Veuillez confirmer',
+      this.$bvModal.msgBoxConfirm('يجب عليك تأكيد عملية الحذف', {
+        title: 'يرجى التأكيد',
         size: 'sm',
         buttonSize: 'sm',
         okVariant: 'danger',
-        okTitle: 'Oui',
-        cancelTitle: 'Non',
+        okTitle: 'نعم',
+        cancelTitle: 'لا',
         footerClass: 'p-2',
         hideHeaderClose: false,
         centered: true
@@ -609,6 +602,9 @@ export default {
                   .catch(error => {
                     this.isLoading = false
                     this.error = error.response.data
+                    if(this.error.errors === undefined){
+                      this.showErrorInvalid = true
+                    }
                     console.log(error)
                     this.showError = true
                   });

@@ -1,11 +1,11 @@
 <template>
   <b-row>
-    <b-col>
+    <b-col md="6" cols="12">
       <b-card class="mb-4">
         <MonthTable></MonthTable>
       </b-card>
     </b-col>
-    <b-col>
+    <b-col md="6" cols="12">
       <b-card class="mb-4">
         <MonthTable6></MonthTable6>
       </b-card>

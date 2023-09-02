@@ -42,7 +42,7 @@
         </template>
       </ul>
     </div>
-     </div> 
+     </div>
   </aside>   
 </template>
 

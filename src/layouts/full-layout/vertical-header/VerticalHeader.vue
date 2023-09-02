@@ -3,74 +3,119 @@
     <b-navbar
       toggleable="lg"
       :type="`${navbarColor == 'white' ? 'light' : 'dark'}`"
-      class="p-0"
+      class="p-0 d-block"
       :variant="navbarColor"
     >
-      <b-navbar-nav
-        ><b-nav-item @click="showMobileSidebar" class="d-block d-lg-none"
-          ><i class="mdi mdi-menu fs-3"></i></b-nav-item
-      ></b-navbar-nav>
-      <div :class="`navbar-header d-block d-lg-none`">
-        <LogoDark v-if="navbarColor == 'white'" />
-        <LogoLight v-else />
-      </div>
-      <b-navbar-toggle target="nav-collapse" class="mx-2 border-0"
-        ><i class="ti-more"></i
-      ></b-navbar-toggle>
-      <b-collapse id="nav-collapse" is-nav class="">
-        <b-navbar-nav>
-          <b-nav-item @click="setMiniSidebar" class="d-none d-lg-block"
-            ><i class="mdi mdi-menu fs-3"></i
-          ></b-nav-item>
 
-        </b-navbar-nav>
 
-        <b-navbar-nav class="ml-auto">
 
-          <b-nav-item-dropdown right no-caret class="mailbox">
-            <!-- Using 'button-content' slot -->
-            <template #button-content>
-              <b-row class="d-flex align-items-center py-3">
-                <img
-                    src="../../../assets/images/users/1.jpg"
-                    alt="user"
-                    class="rounded-circle"
-                    width="31"
-                />
-                <div class="mx-2"></div>
-                <h4 class="mb-0">{{ full_name }}</h4>
-                <div class="mx-2"></div>
-              </b-row>
-            </template>
-            <b-dropdown-text class="bg-primary text-white">
-              <div class="d-flex align-items-center py-2">
-                <b-img
-                  src="@/assets/images/users/1.jpg"
-                  width="50"
-                  rounded="circle"
-                />
-                <div class="ml-3">
+<!--      <div :class="`navbar-header d-block d-lg-none`">-->
+<!--        <LogoDark v-if="navbarColor == 'white'" />-->
+<!--        <LogoLight v-else />-->
+<!--      </div>-->
+
+      <b-row class="d-md-none">
+        <b-col cols="9">
+          <b-navbar-nav>
+            <b-nav-item-dropdown right no-caret>
+              <template #button-content>
+                <b-row class="d-flex align-items-center py-3">
+                  <img
+                      src="../../../assets/images/users/1.jpg"
+                      alt="user"
+                      class="rounded-circle"
+                      width="31"
+                  />
+                  <div class="mx-1"></div>
                   <h4 class="mb-0">{{ full_name }}</h4>
-                  <span class="font-weight-light">{{ username }}</span>
+                </b-row>
+              </template>
+              <b-dropdown-text class="bg-primary text-white text-right">
+                <div class="d-flex align-items-center py-2">
+                  <b-img
+                      src="@/assets/images/users/1.jpg"
+                      width="50"
+                      rounded="circle"
+                  />
+                  <div class="mr-3">
+                    <h4 class="mb-0">{{ full_name }}</h4>
+                    <span class="font-weight-light">{{ username }}</span>
+                  </div>
                 </div>
-              </div>
-            </b-dropdown-text>
-            <b-dropdown-item class="d-flex align-items-center" @click="$bvModal.show('modal-basic')">
-              <feather type="lock" class="feather-sm mr-2 mb-n1"></feather>
-              Changer le mot de passe
-            </b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="#" class="d-flex align-items-center" @click="logout">
-              <feather type="log-out" class="feather-sm mr-2 mb-n1"></feather>
-              Se déconnecter
-            </b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav>
-      </b-collapse>
+              </b-dropdown-text>
+              <b-dropdown-item class="d-flex align-items-center text-right" @click="$bvModal.show('modal-basic')">
+                <feather type="lock" class="feather-sm ml-2 mb-n1"></feather>
+                تغيير كلمة السر
+              </b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item href="#" class="d-flex align-items-center text-right" @click="logout">
+                <feather type="log-out" class="feather-sm ml-2 mb-n1"></feather>
+                تسجيل الخروج
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-col>
+        <b-col cols="3">
+          <b-navbar-nav class="d-lg-none"
+          ><b-nav-item @click="showMobileSidebar" class="d-block d-lg-none"
+          ><i class="mdi mdi-menu fs-3"></i></b-nav-item
+          ></b-navbar-nav>
+        </b-col>
+      </b-row>
+
+      <b-row class="bv-d-sm-down-none">
+        <b-col md="8" cols="12">
+          <b-navbar-nav class="mt-1">
+            <b-nav-item @click="setMiniSidebar" class="d-lg-block">
+              <i class="mdi mdi-menu fs-3"></i>
+            </b-nav-item>
+          </b-navbar-nav>
+        </b-col>
+        <b-col class="text-left float-left" align-self="left" align="left" md="4" cols="12">
+          <b-navbar-nav>
+            <b-nav-item-dropdown right no-caret>
+              <template #button-content>
+                <b-row class="d-flex align-items-center text-left py-3">
+                  <img
+                      src="../../../assets/images/users/1.jpg"
+                      alt="user"
+                      class="rounded-circle"
+                      width="31"
+                  />
+                  <div class="mx-1"></div>
+                  <h4 class="mb-0">{{ full_name }}</h4>
+                </b-row>
+              </template>
+              <b-dropdown-text class="bg-primary text-white text-right">
+                <div class="d-flex align-items-center">
+                  <b-img
+                      src="@/assets/images/users/1.jpg"
+                      width="50"
+                      rounded="circle"
+                  />
+                  <div class="mr-3">
+                    <h4 class="mb-0">{{ full_name }}</h4>
+                    <span class="font-weight-light">{{ username }}</span>
+                  </div>
+                </div>
+              </b-dropdown-text>
+              <b-dropdown-item class="d-flex align-items-center text-right" @click="$bvModal.show('modal-basic')">
+                <feather type="lock" class="feather-sm ml-2 mb-n1"></feather>
+                تغيير كلمة السر
+              </b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item href="#" class="d-flex align-items-center text-right" @click="logout">
+                <feather type="log-out" class="feather-sm ml-2 mb-n1"></feather>
+                تسجيل الخروج
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-col>
+      </b-row>
     </b-navbar>
 
     <b-modal id="modal-basic" hide-footer>
-      <template #modal-title>Changement de Mot de Passe</template>
+      <template #modal-title>تغيير كلمة المرور</template>
       <div class="d-block">
         <b-form>
           <b-form-group
@@ -81,7 +126,7 @@
             <b-form-input
                 id="input-1"
                 v-model="newPassword"
-                placeholder="Entrez le nouveau mot de passe"
+                placeholder="ادخل كلمة المرور الجديدة"
                 required
                 type="password"
             ></b-form-input>
@@ -89,7 +134,7 @@
         </b-form>
       </div>
       <div class="pt-3 border-top text-right">
-        <b-button variant="primary" @click="updatePassword()" >Modifier</b-button>
+        <b-button variant="primary" @click="updatePassword()" >تعديل</b-button>
       </div>
     </b-modal>
   </header>
@@ -97,8 +142,8 @@
 
 <script>
 import { mapState } from "vuex";
-import LogoDark from "../logo-dark/LogoDark";
-import LogoLight from "../logo-light/LogoLight";
+// import LogoDark from "../logo-dark/LogoDark";
+// import LogoLight from "../logo-light/LogoLight";
 //import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 import img1 from "../../../assets/images/users/1.jpg";
@@ -175,11 +220,12 @@ export default {
     },
     username: "",
     full_name: "",
-    newPassword: null
+    newPassword: null,
+    drawerOpened: false
   }),
   components: {
-    LogoDark,
-    LogoLight,
+    // LogoDark,
+    // LogoLight,
     //VuePerfectScrollbar,
   },
   computed: {
@@ -194,11 +240,12 @@ export default {
     },
   },
   mounted() {
+    this.$store.commit("SET_SIDEBAR_DRAWER", this.drawerOpened);
     this.getCurrentUser()
   },
   methods: {
     showMobileSidebar() {
-      this.$store.commit("SET_SIDEBAR_DRAWER", true);
+      this.$store.commit("SET_SIDEBAR_DRAWER", !this.drawerOpened);
     },
     setMiniSidebar() {
       if (this.LayoutType == "full-sidebar") {

@@ -20,66 +20,6 @@
         ></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav class="">
-<!--          <b-navbar-nav>-->
-<!--            &lt;!&ndash; -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--            Mega Dropdown-->
-<!--          -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;-->
-<!--            <b-nav-item-dropdown left no-caret class="two-column-dd">-->
-<!--              <template #button-content>-->
-<!--                <i class="mdi mdi-airplay fs-7 d-block d-md-none"></i>-->
-<!--                <span class="d-none d-md-block"-->
-<!--                  >Go To <i class="fa fa-angle-down"></i-->
-<!--                ></span>-->
-<!--              </template>-->
-<!--              <b-row class="no-gutters">-->
-<!--                <b-col cols="6" class="border-right">-->
-<!--                  <b-dropdown-item class="text-center" to="/apps/chat">-->
-<!--                    <feather type="message-circle" class="mt-2"></feather>-->
-<!--                    <h5 class="card-title mb-0 mt-2">Chats</h5>-->
-<!--                    <p class="text-muted">Connect with the world</p>-->
-<!--                  </b-dropdown-item>-->
-<!--                </b-col>-->
-<!--                <b-col cols="6">-->
-<!--                  <b-dropdown-item class="text-center" to="/apps/email/inbox">-->
-<!--                    <feather type="mail" class="mt-2"></feather>-->
-<!--                    <h5 class="card-title mb-0 mt-2">Email</h5>-->
-<!--                    <p class="text-muted">Compose new email</p>-->
-<!--                  </b-dropdown-item>-->
-<!--                </b-col>-->
-<!--                <b-col cols="6" class="border-right border-top">-->
-<!--                  <b-dropdown-item class="text-center" to="/apps/contactslist">-->
-<!--                    <feather type="phone" class="mt-2"></feather>-->
-<!--                    <h5 class="card-title mb-0 mt-2">Contact List</h5>-->
-<!--                    <p class="text-muted">Add new contact</p>-->
-<!--                  </b-dropdown-item>-->
-<!--                </b-col>-->
-<!--                <b-col cols="6" class="border-top">-->
-<!--                  <b-dropdown-item class="text-center" to="/apps/ecommerce">-->
-<!--                    <feather type="shopping-cart" class="mt-2"></feather>-->
-<!--                    <h5 class="card-title mb-0 mt-2">Ecommerce</h5>-->
-<!--                    <p class="text-muted">Buy a new product</p>-->
-<!--                  </b-dropdown-item>-->
-<!--                </b-col>-->
-<!--              </b-row>-->
-<!--            </b-nav-item-dropdown>-->
-
-<!--            &lt;!&ndash; -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--            Create New Dropdown-->
-<!--          -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;-->
-<!--            <b-nav-item-dropdown left no-caret>-->
-<!--              <template #button-content>-->
-<!--                <i class="mdi mdi-library-plus fs-7 d-block d-md-none"></i>-->
-<!--                <span class="d-none d-md-block"-->
-<!--                  >Create New <i class="fa fa-angle-down"></i-->
-<!--                ></span>-->
-<!--              </template>-->
-<!--              <b-dropdown-item>First Action</b-dropdown-item>-->
-<!--              <b-dropdown-item>Second Action</b-dropdown-item>-->
-<!--              <b-dropdown-item>Third Action</b-dropdown-item>-->
-<!--              <b-dropdown-divider></b-dropdown-divider>-->
-<!--              <b-dropdown-item>Fourth action</b-dropdown-item>-->
-<!--            </b-nav-item-dropdown>-->
-<!--          </b-navbar-nav>-->
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">

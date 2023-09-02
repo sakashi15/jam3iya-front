@@ -6,7 +6,6 @@ Vue.use(Router);
 const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
-
   routes: [
     {
       path: "/dashboard",
@@ -14,42 +13,42 @@ const router = new Router({
       component: () => import("@/layouts/full-layout/FullLayout"),
       children: [
         {
-          name: "Accueil",
+          name: "الرئيسية",
           path: "/home",
           component: () => import("@/views/home/Home"),
         },
         {
-          name: "Personnes",
+          name: "الاعضاء",
           path: "/persons",
           component: () => import("@/views/persons/Persons"),
         },
         {
-          name: "Expenses",
+          name: "نفقات الجمعية",
           path: "/expenses",
           component: () => import("@/views/expenses/Expenses"),
         },
         {
-          name: "Expenses Dar Jma3a",
+          name: "نفقات دار الجماعة",
           path: "/expenses_dar_jma3a",
           component: () => import("@/views/expenses_dar_jma3a/ExpensesDarJma3a"),
         },
         {
-          name: "Donations",
+          name: "الهبات",
           path: "/giveways",
           component: () => import("@/views/giveways/Giveways"),
         },
         {
-          name: "Abonnements des membres",
+          name: "اشتراكات الاعضاء",
           path: "/member_subscriptions",
           component: () => import("@/views/member_subscriptions/MemberSubscriptions"),
         },
         {
-          name: "Statistique",
+          name: "احصائيات",
           path: "/statistics",
           component: () => import("@/views/dashboards/classic-dashboard/ClassicDashboard"),
         },
         {
-          name: "Années et Types",
+          name: "السنوات والانواع",
           path: "/years-types",
           component: () => import("@/views/years-types/YearsTypes"),
         },
