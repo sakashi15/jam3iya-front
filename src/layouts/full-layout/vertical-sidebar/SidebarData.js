@@ -36,6 +36,13 @@ export default [
     to: "/giveways/",
   },
   {
+    id: "41",
+    icon: "dollar-sign",
+    title: "الايرادات",
+    i18n: "الايرادات",
+    to: "/revenues/",
+  },
+  {
     id: "42",
     icon: "credit-card",
     title: "اشتراكات الاعضاء",

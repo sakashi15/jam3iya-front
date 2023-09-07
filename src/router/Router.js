@@ -38,6 +38,11 @@ const router = new Router({
           component: () => import("@/views/giveways/Giveways"),
         },
         {
+          name: "الايرادات",
+          path: "/revenues",
+          component: () => import("@/views/revenues/Revenues"),
+        },
+        {
           name: "اشتراكات الاعضاء",
           path: "/member_subscriptions",
           component: () => import("@/views/member_subscriptions/MemberSubscriptions"),
