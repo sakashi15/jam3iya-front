@@ -25,13 +25,20 @@
           </b-input-group>
         </b-form-group>
       </b-col>
-      <b-col md="4" cols="12">
-      </b-col>
       <b-col md="4" cols="12" class="text-left">
         <div class="ml-auto mt-2 mt-md-0">
           <div class="btn-grp">
             <b-button variant="outline-info" v-b-modal.modal-center @click="hideAlerts(); resetAdd()">
               اضافة عضو
+            </b-button>
+          </div>
+        </div>
+      </b-col>
+      <b-col md="4" cols="12" class="text-left">
+        <div class="ml-auto mt-2 mt-md-0">
+          <div class="btn-grp">
+            <b-button variant="outline-info" v-b-modal.modal-center3 @click="hideAlerts(); currentFile = null">
+              رفع ملف الاعضاء
             </b-button>
           </div>
         </div>
@@ -160,118 +167,121 @@
         class="text-right"
     >
       <div class="d-block">
-        <b-row>
-          <b-col cols="12" lg="12">
-            <b-alert
-                variant="success"
-                class="d-flex align-items-center bt-alert"
-                show
-                dismissible
-                fade
-                v-if="showSuccess"
-            >
-              <span class="mr-4 text-right">تمت العملية بنجاح</span>
-            </b-alert>
-            <b-alert
-                variant="danger"
-                class="d-flex align-items-center bt-alert text-right"
-                show
-                dismissible
-                fade
-                v-if="showError"
-            >
-              <b-col class="mr-4">
-                <div v-for="(errorArray, idx) in error.errors" :key="idx">
-                  <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                    <span class="text-danger text-right">{{ allErrors}} </span>
+        <b-overlay :show="isLoading" rounded="sm">
+          <b-row>
+            <b-col cols="12" lg="12">
+              <b-alert
+                  variant="success"
+                  class="d-flex align-items-center bt-alert"
+                  show
+                  dismissible
+                  fade
+                  v-if="showSuccess"
+              >
+                <span class="mr-4 text-right">تمت العملية بنجاح</span>
+              </b-alert>
+              <b-alert
+                  variant="danger"
+                  class="d-flex align-items-center bt-alert text-right"
+                  show
+                  dismissible
+                  fade
+                  v-if="showError"
+              >
+                <b-col class="mr-4">
+                  <div v-for="(errorArray, idx) in error.errors" :key="idx">
+                    <div v-for="(allErrors, idx) in errorArray" :key="idx">
+                      <span class="text-danger text-right">{{ allErrors}} </span>
+                    </div>
                   </div>
-                </div>
-                <div v-if="showErrorInvalid">
-                  <span class="text-danger text-right">{{ error.message }} </span>
-                </div>
-              </b-col>
-            </b-alert>
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-              <b-form-group
-                  id="input-group-1"
-                  label="عنوان البريد الالكتروني:"
-                  label-for="input-1"
-                  class="text-right"
-              >
-                <b-form-input
-                    id="input-1"
-                    v-model="form.email"
-                    type="email"
-                    placeholder="ادخل البريد الالكتروني"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                  id="input-group-2"
-                  label="الاسم واللقب:"
-                  label-for="input-2"
-                  class="text-right"
-              >
-                <b-form-input
-                    id="input-2"
-                    v-model="form.full_name"
-                    placeholder="ادخل الاسم واللقب"
-                    required
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                  id="input-group-2"
-                  label="تاريخ الميلاد:"
-                  label-for="input-2"
-                  class="text-right"
-              >
-                <b-form-input
-                    id="input-2"
-                    type="date"
-                    v-model="form.birth_date"
-                    placeholder="ادخل تاريخ الميلاد"
-                    required
+                  <div v-if="showErrorInvalid">
+                    <span class="text-danger text-right">{{ error.message }} </span>
+                  </div>
+                </b-col>
+              </b-alert>
+              <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                <b-form-group
+                    id="input-group-1"
+                    label="عنوان البريد الالكتروني:"
+                    label-for="input-1"
                     class="text-right"
-                ></b-form-input>
-              </b-form-group>
+                >
+                  <b-form-input
+                      id="input-1"
+                      v-model="form.email"
+                      type="email"
+                      placeholder="ادخل البريد الالكتروني"
+                  ></b-form-input>
+                </b-form-group>
 
-              <b-form-group
-                  id="input-group-2"
-                  label="رقم الهاتف:"
-                  label-for="input-2"
-                  class="text-right"
-              >
-                <b-form-input
-                    id="input-2"
-                    v-model="form.phone"
-                    placeholder="ادخل رقم الهاتف"
-                    required
-                ></b-form-input>
-              </b-form-group>
+                <b-form-group
+                    id="input-group-2"
+                    label="الاسم واللقب:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-input
+                      id="input-2"
+                      v-model="form.full_name"
+                      placeholder="ادخل الاسم واللقب"
+                      required
+                  ></b-form-input>
+                </b-form-group>
 
-              <b-form-group
-                  id="input-group-2"
-                  label="الصورة:"
-                  label-for="input-2"
-                  class="text-right"
-              >
-                <b-form-file
-                    id="file-default"
-                    type="file"
-                    v-model="form.image"
-                    placeholder="اختر صورة"
-                    browse-text="اختر صورة"
-                ></b-form-file>
-              </b-form-group>
+                <b-form-group
+                    id="input-group-2"
+                    label="تاريخ الميلاد:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-input
+                      id="input-2"
+                      type="date"
+                      v-model="form.birth_date"
+                      placeholder="ادخل تاريخ الميلاد"
+                      required
+                      class="text-right"
+                  ></b-form-input>
+                </b-form-group>
 
-              <div class="btn-grp">
-                <b-button type="submit" variant="primary">اضافة</b-button>
-                <b-button type="reset" variant="outline-danger">تفريغ</b-button>
-              </div>
-            </b-form>
-          </b-col>
-        </b-row>
+                <b-form-group
+                    id="input-group-2"
+                    label="رقم الهاتف:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-input
+                      id="input-2"
+                      v-model="form.phone"
+                      placeholder="ادخل رقم الهاتف"
+                      required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                    id="input-group-2"
+                    label="الصورة:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-file
+                      id="file-default"
+                      type="file"
+                      v-model="form.image"
+                      placeholder="اختر صورة"
+                      browse-text="اختر صورة"
+                      class="text-left"
+                  ></b-form-file>
+                </b-form-group>
+
+                <div class="btn-grp">
+                  <b-button type="submit" variant="primary">اضافة</b-button>
+                  <b-button type="reset" variant="outline-danger">تفريغ</b-button>
+                </div>
+              </b-form>
+            </b-col>
+          </b-row>
+        </b-overlay>
       </div>
     </b-modal>
 
@@ -284,122 +294,192 @@
         class="text-right"
     >
       <div class="d-block">
-        <b-row>
-          <b-col cols="12" lg="12">
-            <b-alert
-                variant="success"
-                class="d-flex align-items-center bt-alert"
-                show
-                dismissible
-                fade
-                v-if="showSuccess"
-            >
-              <span class="mr-4 text-right">تمت العملية بنجاح</span>
-            </b-alert>
-            <b-alert
-                variant="danger"
-                class="d-flex align-items-center bt-alert text-right"
-                show
-                dismissible
-                fade
-                v-if="showError"
-            >
-              <b-col class="mr-4">
-                <div v-for="(errorArray, idx) in error.errors" :key="idx">
-                  <div v-for="(allErrors, idx) in errorArray" :key="idx">
-                    <span class="text-danger text-right">{{ allErrors}} </span>
+        <b-overlay :show="isLoading" rounded="sm">
+          <b-row>
+            <b-col cols="12" lg="12">
+              <b-alert
+                  variant="success"
+                  class="d-flex align-items-center bt-alert"
+                  show
+                  dismissible
+                  fade
+                  v-if="showSuccess"
+              >
+                <span class="mr-4 text-right">تمت العملية بنجاح</span>
+              </b-alert>
+              <b-alert
+                  variant="danger"
+                  class="d-flex align-items-center bt-alert text-right"
+                  show
+                  dismissible
+                  fade
+                  v-if="showError"
+              >
+                <b-col class="mr-4">
+                  <div v-for="(errorArray, idx) in error.errors" :key="idx">
+                    <div v-for="(allErrors, idx) in errorArray" :key="idx">
+                      <span class="text-danger text-right">{{ allErrors}} </span>
+                    </div>
                   </div>
-                </div>
-                <div v-if="showErrorInvalid">
-                  <span class="text-danger text-right">{{ error.message }} </span>
-                </div>
-              </b-col>
-            </b-alert>
-            <b-form @submit="onSubmit2" v-if="show2">
-              <b-form-group
-                  id="input-group-1"
-                  label="عنوان البريد الالكتروني:"
-                  label-for="input-1"
-                  class="text-right"
-              >
-                <b-form-input
-                    id="input-1"
-                    v-model="form.email"
-                    type="email"
-                    placeholder="ادخل البريد الالكتروني"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                  id="input-group-2"
-                  label="الاسم واللقب:"
-                  label-for="input-2"
-                  class="text-right"
-              >
-                <b-form-input
-                    id="input-2"
-                    v-model="form.full_name"
-                    placeholder="ادخل الاسم واللقب"
-                    required
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                  id="input-group-2"
-                  label="تاريخ الميلاد:"
-                  label-for="input-2"
-                  class="text-right"
-              >
-                <b-form-input
-                    id="input-2"
-                    type="date"
-                    v-model="form.birth_date"
-                    placeholder="ادخل تاريخ الميلاد"
-                    required
+                  <div v-if="showErrorInvalid">
+                    <span class="text-danger text-right">{{ error.message }} </span>
+                  </div>
+                </b-col>
+              </b-alert>
+              <b-form @submit="onSubmit2" v-if="show2">
+                <b-form-group
+                    id="input-group-1"
+                    label="عنوان البريد الالكتروني:"
+                    label-for="input-1"
                     class="text-right"
-                ></b-form-input>
-              </b-form-group>
+                >
+                  <b-form-input
+                      id="input-1"
+                      v-model="form.email"
+                      type="email"
+                      placeholder="ادخل البريد الالكتروني"
+                  ></b-form-input>
+                </b-form-group>
 
-              <b-form-group
-                  id="input-group-2"
-                  label="رقم الهاتف:"
-                  label-for="input-2"
-                  class="text-right"
+                <b-form-group
+                    id="input-group-2"
+                    label="الاسم واللقب:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-input
+                      id="input-2"
+                      v-model="form.full_name"
+                      placeholder="ادخل الاسم واللقب"
+                      required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                    id="input-group-2"
+                    label="تاريخ الميلاد:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-input
+                      id="input-2"
+                      type="date"
+                      v-model="form.birth_date"
+                      placeholder="ادخل تاريخ الميلاد"
+                      required
+                      class="text-right"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                    id="input-group-2"
+                    label="رقم الهاتف:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-input
+                      id="input-2"
+                      v-model="form.phone"
+                      placeholder="ادخل رقم الهاتف"
+                      required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                    id="input-group-2"
+                    label="الصورة:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-file
+                      id="file-default"
+                      class="text-left"
+                      type="file"
+                      v-model="currentImage"
+                      placeholder="اختر صورة"
+                      browse-text="اختر صورة"
+                  ></b-form-file>
+                </b-form-group>
+
+
+
+
+
+                <div class="btn-grp">
+                  <b-button type="submit" variant="primary">تعديل</b-button>
+                  <b-button @click="onReset2" variant="outline-danger">حذف</b-button>
+                </div>
+              </b-form>
+            </b-col>
+          </b-row>
+        </b-overlay>
+      </div>
+    </b-modal>
+
+    <b-modal
+        id="modal-center3"
+        hide-footer
+        centered
+        title="رفع ملف اعضاء"
+        class="text-right"
+    >
+      <div class="d-block">
+        <b-overlay :show="isLoading" rounded="sm">
+          <b-row>
+            <b-col cols="12" lg="12">
+              <b-alert
+                  variant="success"
+                  class="d-flex align-items-center bt-alert"
+                  show
+                  dismissible
+                  fade
+                  v-if="showSuccess"
               >
-                <b-form-input
-                    id="input-2"
-                    v-model="form.phone"
-                    placeholder="ادخل رقم الهاتف"
-                    required
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                  id="input-group-2"
-                  label="الصورة:"
-                  label-for="input-2"
-                  class="text-right"
+                <span class="mr-4 text-right" v-html="successMessage"></span>
+              </b-alert>
+              <b-alert
+                  variant="danger"
+                  class="d-flex align-items-center bt-alert text-right"
+                  show
+                  dismissible
+                  fade
+                  v-if="showError"
               >
-                <b-form-file
-                    id="file-default"
-                    type="file"
-                    v-model="currentImage"
-                    placeholder="اختر صورة"
-                    browse-text="اختر صورة"
-                ></b-form-file>
-              </b-form-group>
-
-
-
-
-
-              <div class="btn-grp">
-                <b-button type="submit" variant="primary">تعديل</b-button>
-                <b-button @click="onReset2" variant="outline-danger">حذف</b-button>
-              </div>
-            </b-form>
-          </b-col>
-        </b-row>
+                <b-col class="mr-4">
+                  <div v-for="(errorArray, idx) in error.errors" :key="idx">
+                    <div v-for="(allErrors, idx) in errorArray" :key="idx">
+                      <span class="text-danger text-right">{{ allErrors}} </span>
+                    </div>
+                  </div>
+                  <div v-if="showErrorInvalid">
+                    <span class="text-danger text-right">{{ error.message }} </span>
+                  </div>
+                </b-col>
+              </b-alert>
+              <b-form @submit="uploadFile" v-if="show3">
+                <b-form-group
+                    id="input-group-8"
+                    label="الملف:"
+                    label-for="input-2"
+                    class="text-right"
+                >
+                  <b-form-file
+                      id="file-default"
+                      type="file"
+                      v-model="currentFile"
+                      accept=".xlsx, .xls, .csv"
+                      placeholder="اختر ملف"
+                      browse-text="اختر ملف"
+                      class="text-left"
+                  ></b-form-file>
+                </b-form-group>
+                <div class="btn-grp">
+                  <b-button type="submit" variant="primary">استراد</b-button>
+                </div>
+              </b-form>
+            </b-col>
+          </b-row>
+        </b-overlay>
       </div>
     </b-modal>
 
@@ -457,12 +537,15 @@ export default {
     },
     show: true,
     show2: true,
+    show3: true,
     error: null,
     showError: false,
     showSuccess: false,
+    successMessage: "",
     showErrorInvalid: false,
     currentImage: null,
-    isLoading: false
+    currentFile: null,
+    isLoading: false,
   }),
   mounted() {
     this.totalRows = this.items.length;
@@ -499,6 +582,42 @@ export default {
             console.log(error)
             this.showError = true
           });
+    },
+    uploadFile(event) {
+      event.preventDefault();
+      if(this.currentFile != null){
+        this.showError = false
+        this.showSuccess = false
+        this.isLoading = true
+        this.$http.post("upload-members", {file: this.currentFile}, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+            .then(response => {
+              this.isLoading = false
+              if(response.status === 200){
+                this.showSuccess = true
+                this.successMessage = response.data.message
+                this.getAllPersons()
+                this.onReset3()
+              }else{
+                this.showError = true
+              }
+            })
+            .catch(error => {
+              this.isLoading = false
+              this.showSuccess = false
+              this.error = error.response.data
+              if(this.error.errors === undefined){
+                this.showErrorInvalid = true
+              }
+              console.log(error)
+              this.showError = true
+            });
+      }else{
+        alert("يجب اختيار ملف اكسل")
+      }
     },
     getAllPersons() {
       this.isLoading = true
@@ -538,6 +657,7 @@ export default {
             this.isLoading = false
             if(response.status === 200){
               this.showSuccess = true
+
               this.getAllPersons()
             }else{
               this.showError = true
@@ -564,6 +684,13 @@ export default {
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
+      });
+    },
+    onReset3() {
+      this.currentFile = null;
+      this.show3 = false;
+      this.$nextTick(() => {
+        this.show3 = true;
       });
     },
     onReset2() {

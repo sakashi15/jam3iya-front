@@ -113,6 +113,7 @@
           title="اضافة هبة"
       >
         <div class="d-block">
+          <b-overlay :show="isLoading" rounded="sm">
           <b-row>
             <b-col cols="12" lg="12">
               <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -195,6 +196,7 @@
               </b-form>
             </b-col>
           </b-row>
+          </b-overlay>
         </div>
       </b-modal>
 
@@ -205,6 +207,7 @@
           title="تعديل هبة"
       >
         <div class="d-block">
+          <b-overlay :show="isLoading" rounded="sm">
           <b-row>
             <b-col cols="12" lg="12">
               <b-alert
@@ -289,6 +292,7 @@
               </b-form>
             </b-col>
           </b-row>
+          </b-overlay>
         </div>
       </b-modal>
 
